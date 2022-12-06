@@ -1,1 +1,7 @@
 The Start of Something Great!
+
+All - 2022-12-5
+Made first draft of design doc
+
+MayaN - 2022-12-6
+Updated design doc by clarifying the API descriptions and organizing tables
