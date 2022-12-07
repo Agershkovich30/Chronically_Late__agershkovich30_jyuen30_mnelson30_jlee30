@@ -1,7 +1,10 @@
 The Start of Something Great!
 
-All - 2022-12-5
+2022-12-5: All
 Made first draft of design doc
-
-MayaN - 2022-12-6
-Updated design doc by clarifying the API descriptions and organizing tables
+================================
+2022-12-06: 
+- MayaN:
+  - Updated design doc by clarifying the API descriptions and organizing tables
+- Julia Lee:
+  - Updated design doc with image of component map.
