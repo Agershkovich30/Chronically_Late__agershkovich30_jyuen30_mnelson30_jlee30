@@ -10,4 +10,7 @@ Our most certainly professional Spotify Bootstrapped will present you with a var
 APIs and Cards:
 https://github.com/stuy-softdev/notes-and-code/blob/main/api_kb/411_on_Spotify.md
 
-Launch Code:
+Launch Code [for current test version]:
+- ```pip install spotipy```
+- run ```python3 setup.py install```
+- run app.py
