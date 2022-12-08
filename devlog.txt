@@ -8,3 +8,9 @@ Made first draft of design doc
   - Updated design doc by clarifying the API descriptions and organizing tables
 - Julia Lee:
   - Updated design doc with image of component map.
+================================
+2022-12-07:
+- Julia Lee:
+  - Added a test folder with a working app taken from Eriktoor's github and slightly modified.
+  - Setup Spotify Dev App to currently be capable of handling the test app.
+  - Updated Readme.md with further resources utilized.
