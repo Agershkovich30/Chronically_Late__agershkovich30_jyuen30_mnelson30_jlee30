@@ -122,13 +122,13 @@
 #     )
 
 
-import flask
+from flask import Flask, render_template, request
 
-app = flask(__name__)
+app = Flask(__name__)
 
-@app.route('/index', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def render_index():
-    return render_template("index.html")
+    return render_template('index.html')
 
 if __name__ == "__main__":
     app.debug = True
