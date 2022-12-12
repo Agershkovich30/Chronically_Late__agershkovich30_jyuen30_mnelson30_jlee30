@@ -1,135 +1,48 @@
-# from flask import Flask, request, url_for, session, redirect, render_template
-# import spotipy
-# from spotipy.oauth2 import SpotifyOAuth
-# import time
-# from time import gmtime, strftime
-# from credentials import CLIENT_ID, CLIENT_SECRET, SECRET_KEY
-# import os
+from flask import Flask, request, url_for, session, redirect, render_template
+import requests
+import base64
 
-# # Defining consts
-# TOKEN_CODE = "BQDs01Ihut6uZ9Z9alod7ft9uBn_85hTd57TsNOMEypwPjZILXZgzlxlmrk4-T85wSjzItPX0wsai31g3C9f88mwZQvTYA629PadhDMZGxkL_LvpM9bIeCpww7jss2I_ruJ_Z89eeP9TBee_hfMlnyDGxuakl6_3bWch0SrxAt0S2xXdKFUW-IpvElRR5PcSjsyhaOrgvvg1qODKw4Y"
-# MEDIUM_TERM = "medium_term"
-# SHORT_TERM = "short_term"
-# LONG_TERM = "long_term"
-
-# def create_spotify_oauth():
-#     return SpotifyOAuth(
-#         client_id=CLIENT_ID,
-#         client_secret=CLIENT_SECRET,
-#         redirect_uri=url_for("redirectPage",_external=True),
-#         scope="user-top-read user-library-read"
-#     )
-
-# app = Flask(__name__)
-# app.secret_key = SECRET_KEY
-# app.config['SESSION_COOKIE_NAME'] = 'Julia Cookie'
-
-# @app.route('/')
-# def index():
-#     name = 'username'
-#     return render_template('index.html', title='Welcome', username=name)
-
-# @app.route('/login')
-# def login():
-#     sp_oauth = create_spotify_oauth()
-#     auth_url = sp_oauth.get_authorize_url()
-#     return redirect(auth_url)
-
-# @app.route('/redirect')
-# def redirectPage():
-#     sp_oauth = create_spotify_oauth()
-#     session.clear()
-#     code = request.args.get('code')
-#     token_info = sp_oauth.get_access_token(code)
-#     session[TOKEN_CODE] = token_info
-#     return redirect(url_for("getTracks", _external=True))
-
-# # @app.route("/redirectPage")
-# # def redirectPage():
-# #     code = request.args.get('code')
-# #     sp_oauth: SpotifyOAuth(
-# #     client_id = CLIENT_ID,
-# #     client_secret = CLIENT_SECRET,
-# #     redirect_uri = url_for("redirectPage", _external=True),
-# #     scope = 'user-top-read user-library-read'
-# #     )
-# #     token_info = sp_oath.get_access_token(code)
-# #     session[TOKEN_INFO] = token_info
-# #     return redirect(url_for("receipt", _external=True))
-# #
-
-# def get_token():
-#     token_info = session.get(TOKEN_CODE, None)
-#     if not token_info:
-#         raise "exception"
-#     now = int(time.time())
-#     is_expired = token_info['expires_at'] - now < 60
-#     if (is_expired):
-#         sp_oauth = create_spotify_oauth()
-#         token_info = sp_oauth.refresh_access_token(token_info['refresh_token'])
-#     return token_info
-
-# @app.route('/getTracks')
-# def getTracks():
-#     try:
-#         token_info = get_token()
-#     except:
-#         print("user not logged in")
-#         return redirect("/")
-#     sp = spotipy.Spotify(
-#         auth=token_info['access_token'],
-#     )
-
-#     current_user_name = sp.current_user()['display_name']
-#     short_term = sp.current_user_top_tracks(
-#         limit=10,
-#         offset=0,
-#         time_range=SHORT_TERM,
-#     )
-#     medium_term = sp.current_user_top_tracks(
-#         limit=10,
-#         offset=0,
-#         time_range=MEDIUM_TERM,
-#     )
-#     long_term = sp.current_user_top_tracks(
-#         limit=10,
-#         offset=0,
-#         time_range=LONG_TERM,
-#     )
-
-#     if os.path.exists(".cache"):
-#         os.remove(".cache")
-
-#     return render_template('receipt.html', user_display_name=current_user_name, short_term=short_term, medium_term=medium_term, long_term=long_term, currentTime=gmtime())
-
-
-# @app.template_filter('strftime')
-# def _jinja2_filter_datetime(date, fmt=None):
-#     return strftime("%a, %d %b %Y", date)
-
-# @app.template_filter('mmss')
-# def _jinja2_filter_miliseconds(time, fmt=None):
-#     time = int(time / 1000)
-#     minutes = time // 60
-#     seconds = time % 60
-#     if seconds < 10:
-#         return str(minutes) + ":0" + str(seconds)
-#     return str(minutes) + ":" + str(seconds )
-
-# if __name__ == '__main__':
-#     app.run(
-#     debug = True
-#     )
-
-
-from flask import Flask, render_template, request
+CLIENT_ID="6a0dedd845844c95a73948003cc241b7"
+CLIENT_SECRET="62c8b70c2c684632b447ae65b1f4dd0e"
+SECRET_KEY="seret-key"
+REDIRECT_URL="http://localhost:5000/redirect"
+LOCAL_URL="http://localhost:5000"
+ACCESS_TOKEN_URL='https://accounts.spotify.com/api/token'
+TOKEN_CODE = "BQDs01Ihut6uZ9Z9alod7ft9uBn_85hTd57TsNOMEypwPjZILXZgzlxlmrk4-T85wSjzItPX0wsai31g3C9f88mwZQvTYA629PadhDMZGxkL_LvpM9bIeCpww7jss2I_ruJ_Z89eeP9TBee_hfMlnyDGxuakl6_3bWch0SrxAt0S2xXdKFUW-IpvElRR5PcSjsyhaOrgvvg1qODKw4Y"
 
 app = Flask(__name__)
+app.secret_key = SECRET_KEY
+app.config['SESSION_COOKIE_NAME'] = 'Julia Cookie'
 
-@app.route('/', methods=['GET', 'POST'])
-def render_index():
-    return render_template('index.html')
+@app.route('/')
+def index():
+    return redirect('/login')
 
-if __name__ == "__main__":
-    app.debug = True
-    app.run()
+@app.route('/login', methods=["GET","POST"])
+def login():
+    scope = 'user-read-private user-read-email'
+    req = requests.get(f'https://accounts.spotify.com/authorize?client_id={CLIENT_ID}&response_type=code&redirect_uri={REDIRECT_URL}&scope={scope}')
+    temp = req.url
+    return redirect(temp)
+
+@app.route('/redirect', methods=["GET","POST"])
+def process():
+    code = request.args.get('code')
+    state = request.args.get('state')
+    form = {
+        'grant_type': 'authorization_code',
+        'code': f'{code}',
+        'redirect_uri': f'{REDIRECT_URL}'
+    }
+    client_creds = f'{CLIENT_ID}:{CLIENT_SECRET}'
+    client_creds_b64 = base64.b64encode(client_creds.encode())
+    headers = {
+        'Authorization': f"Basic {client_creds_b64.decode()}"
+    }
+    req = requests.post(ACCESS_TOKEN_URL,data=form,headers=headers)
+    return req.json()
+
+if __name__ == '__main__':
+    app.run(
+    debug = True
+    )
