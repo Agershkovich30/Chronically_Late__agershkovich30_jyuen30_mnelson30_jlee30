@@ -1,11 +1,14 @@
-# What is OAUTH 2.0?
+# How To :: OAUTH 2.0 (with API)
+### Feat. Spotify
+---
+## Overview
+OAuth is an authorization tool that many applications use in order to gain access to information from different sources on a user without actually gathering their account credentials. After having the user log into their account on a different platform, the application then receives an access token that they can then use to gather the information that they need.
 
-It is an authorization tool that many applications use in order to gain access to information from different sources on a user without actually gathering their account credentials.
-After having the user log into their account on a different platform, the application then receives an access token that they can then use to gather the information that they need.
+### Estimated Time Cost: Too much.
 
-## Prerequisites:
-Knowledge of how to set up your API’s redirect urls and what query values each request needs.
-Know your app’s client id and secret if necessary.
+### Prerequisites:
+- Knowledge of how to set up your API’s redirect urls and what query values each request needs.
+- Know your app’s client id and secret if necessary (part of set up).
 
 ## Steps:
 1. Use GET to get the url for your API’s authorization using their authorize url and provide all necessary query values.
@@ -53,3 +56,14 @@ def process():
     req = requests.post(ACCESS_TOKEN_URL,data=form,headers=headers)
     return req.json()
 ```
+
+### Resources:
+- https://developer.spotify.com/documentation/general/guides/authorization/code-flow/ (Spotify-specific directions.)
+- https://www.geeksforgeeks.org/python-requests-post-request-with-headers-and-body/ (Knowledge on POST requests with headers, body, and other parameters)
+
+---
+
+Accurate as of last update: 2022-12-12
+
+#### Contributors: 
+Julia Lee, pd2
