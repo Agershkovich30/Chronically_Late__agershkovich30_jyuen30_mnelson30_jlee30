@@ -26,7 +26,7 @@ def login():
     user-library-modify user-library-read user-read-email user-read-private
     ''' #Determines the scope of information you are requesting access to.
     # Gets the URL for the Spotify authorize request page.
-    req = requests.get(f'https://accounts.spotify.com/authorize?client_id={CLIENT_ID}&response_type=code&redirect_uri={REDIRECT_URL}&scope={scope}')
+    req = requests.get(f'https://accounts.spotify.com/authorize?client_id={CLIENT_ID}&response_type=code&redirect_uri={REDIRECT_URL}&scope={scope}&show_dialog=true')
     temp = req.url
     return redirect(temp)
 
