@@ -4,6 +4,17 @@
 ## Overview
 OAuth is an authorization tool that many applications use in order to gain access to information from different sources on a user without actually gathering their account credentials. After having the user log into their account on a different platform, the application then receives an access token that they can then use to gather the information that they need.
 
+IMPORTANT: OAuth is an AUTHORIZATION FRAMEWORK, not an AUTHENTIFICATION. It only authorizes the sending of data, not the direct authentification
+of credentials.
+
+### How Does This Actually Work?
+- The client requests information from a webserver
+- OAuth will send the user to a separate login direct from the webserver
+- If the user logs in, the client is granted an authorization key
+- The client requests for information again, but this time has an authorization key
+- The webserver provides the client with the endpoints specified for the task
+- All is well
+
 ### Estimated Time Cost: Too much.
 
 ### Prerequisites:
@@ -66,4 +77,5 @@ def process():
 Accurate as of last update: 2022-12-12
 
 #### Contributors: 
-Julia Lee, pd2
+Julia Lee, pd2 (for main documentation)
+Jasmine Yuen, pd2 (for general overview and workings)
