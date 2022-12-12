@@ -67,6 +67,7 @@ def getTracks(token):
     # URL that will be used to GET data with appropriate headers
     lookup_url = f"https://api.spotify.com/v1/me/top/{type}?limit={limit}&time_range={time_range}"
     req = requests.get(lookup_url, headers=headers)
+    allData = req.json()
     # Creates a list for top tracks to be listed
     toptracks = []
     # First, gets all of the data from the json data we requested earlier
@@ -76,7 +77,7 @@ def getTracks(token):
         # Add the track's name to our list
         toptracks.append(item.get('name'))
     # Give us the list of our top 50 tracks
-    return toptracks
+    return allData
 
 if __name__ == '__main__':
     app.run(
