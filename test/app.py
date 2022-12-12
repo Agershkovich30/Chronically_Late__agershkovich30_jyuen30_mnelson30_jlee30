@@ -19,7 +19,12 @@ def index():
 #Redirects you to the Spotify authorize request page.
 @app.route('/login', methods=["GET","POST"])
 def login():
-    scope = 'user-read-private user-read-email' #Determines the scope of information you are requesting access to.
+    scope = '''
+    user-read-private user-read-email user-top-read user-library-read ugc-image-upload user-read-playback-state user-modify-playback-state
+    user-read-currently-playing app-remote-control streaming playlist-read-private playlist-read-collaborative playlist-modify-private
+    playlist-modify-public user-follow-modify user-follow-read user-read-playback-position user-top-read user-read-recently-played
+    user-library-modify user-library-read user-read-email user-read-private
+    ''' #Determines the scope of information you are requesting access to.
     # Gets the URL for the Spotify authorize request page.
     req = requests.get(f'https://accounts.spotify.com/authorize?client_id={CLIENT_ID}&response_type=code&redirect_uri={REDIRECT_URL}&scope={scope}')
     temp = req.url
@@ -44,7 +49,34 @@ def process():
     }
     #POST request using the code obtained from logging in. Most importantly, returns the token.
     req = requests.post(ACCESS_TOKEN_URL,data=form,headers=headers)
-    return req.json()
+    access_token = req.json().get('access_token')
+    return redirect(f'/toptracks/{access_token}')
+
+@app.route('/toptracks/<token>', methods=['GET','POST'])
+def getTracks(token):
+    ACCESS_TOKEN = token
+    # Provides the access token as a header
+    headers = {
+        "Authorization": f"Bearer {ACCESS_TOKEN}"
+    }
+    # Determines parameters of information to be obtained
+    type = "tracks"
+    limit = 50
+    # Long-term means over the span of multiple years according to spotify documentation
+    time_range = "long_term"
+    # URL that will be used to GET data with appropriate headers
+    lookup_url = f"https://api.spotify.com/v1/me/top/{type}?limit={limit}&time_range={time_range}"
+    req = requests.get(lookup_url, headers=headers)
+    # Creates a list for top tracks to be listed
+    toptracks = []
+    # First, gets all of the data from the json data we requested earlier
+    data = req.json().get('items')
+    # For every item in that list of tracks
+    for item in data:
+        # Add the track's name to our list
+        toptracks.append(item.get('name'))
+    # Give us the list of our top 50 tracks
+    return toptracks
 
 if __name__ == '__main__':
     app.run(
