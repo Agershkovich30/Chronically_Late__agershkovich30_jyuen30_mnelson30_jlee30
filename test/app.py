@@ -14,7 +14,7 @@ app.config['SESSION_COOKIE_NAME'] = 'Julia Cookie'
 
 @app.route('/')
 def index():
-    return redirect('/login')
+    return render_template('index.html')
 
 #Redirects you to the Spotify authorize request page.
 @app.route('/login', methods=["GET","POST"])
@@ -77,7 +77,34 @@ def getTracks(token):
         # Add the track's name to our list
         toptracks.append(item.get('name'))
     # Give us the list of our top 50 tracks
-    return allData
+    return toptracks
+
+@app.route('/topartists/<token>', methods=['GET','POST'])
+def getArtists(token):
+    ACCESS_TOKEN = token
+    # Provides the access token as a header
+    headers = {
+        "Authorization": f"Bearer {ACCESS_TOKEN}"
+    }
+    # Determines parameters of information to be obtained
+    type = "artists"
+    limit = 50
+    # Long-term means over the span of multiple years according to spotify documentation
+    time_range = "long_term"
+    # URL that will be used to GET data with appropriate headers
+    lookup_url = f"https://api.spotify.com/v1/me/top/{type}?limit={limit}&time_range={time_range}"
+    req = requests.get(lookup_url, headers=headers)
+    allData = req.json()
+    # Creates a list for top tracks to be listed
+    topArtists = []
+    # First, gets all of the data from the json data we requested earlier
+    data = req.json().get('items')
+    # For every item in that list of tracks
+    for item in data:
+        # Add the track's name to our list
+        topArtists.append(item.get('name'))
+    # Give us the list of our top 50 tracks
+    return topArtists
 
 if __name__ == '__main__':
     app.run(
