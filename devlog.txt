@@ -33,3 +33,8 @@ Made first draft of design doc
   - Updated app routes to work with templates.
 - Maya and Jasmine:
   - Working on templates (home + top)
+================================
+2022-12-13:
+- Julia and Aaron:
+  - Tested app and found issue. Working on fixing issue by using communal spotify account.
+
