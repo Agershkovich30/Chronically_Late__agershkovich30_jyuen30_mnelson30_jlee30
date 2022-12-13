@@ -37,4 +37,5 @@ Made first draft of design doc
 2022-12-13:
 - Julia and Aaron:
   - Tested app and found issue. Working on fixing issue by using communal spotify account.
+  - Shared communal account using lastpass which allows login without sharing credentials.
 
