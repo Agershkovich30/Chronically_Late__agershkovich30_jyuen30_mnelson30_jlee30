@@ -1,10 +1,8 @@
 from flask import Flask, request, url_for, session, redirect, render_template
 import requests
 import base64
+from credentials import CLIENT_ID, CLIENT_SECRET, SECRET_KEY
 
-CLIENT_ID="6a0dedd845844c95a73948003cc241b7"
-CLIENT_SECRET="62c8b70c2c684632b447ae65b1f4dd0e"
-SECRET_KEY="seret-key"
 REDIRECT_URL="http://localhost:5000/redirect"
 ACCESS_TOKEN_URL='https://accounts.spotify.com/api/token'
 
@@ -14,7 +12,7 @@ app.config['SESSION_COOKIE_NAME'] = 'Julia Cookie'
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('home.html')
 
 #Redirects you to the Spotify authorize request page.
 @app.route('/login', methods=["GET","POST"])

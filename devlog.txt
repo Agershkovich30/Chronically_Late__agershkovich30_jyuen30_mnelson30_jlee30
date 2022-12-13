@@ -19,3 +19,17 @@ Made first draft of design doc
 - Amalgamation of research
 - Julia Lee:
   - Discoveries of spotipy and picking apart the eriktoor receiptify app.
+================================
+2022-12-11:
+- Julia Lee:
+  - Made working OAuth flow for our website.
+  - Created How To Oauth with Spotify.
+- Jasmine:
+  - Added to How To Oauth.
+================================
+2022-12-12:
+- Julia Lee:
+  - Found some problems with access key, so will work on fixing that. Might have to do with needing to refresh token.
+  - Updated app routes to work with templates.
+- Maya and Jasmine:
+  - Working on templates (home + top)
