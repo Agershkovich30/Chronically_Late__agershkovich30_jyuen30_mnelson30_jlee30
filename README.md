@@ -12,10 +12,11 @@ Our most certainly professional Spotify Bootstrapped will present you with a var
 - https://github.com/stuy-softdev/notes-and-code/blob/main/api_kb/411_on_genius.md
 - https://github.com/stuy-softdev/notes-and-code/blob/main/api_kb/411_on_MyMemoryTranslated.md
 - https://levelup.gitconnected.com/how-to-build-a-spotify-player-with-react-in-15-minutes-7e01991bc4b6
+
 ## Launch Code [for current test version]:
-- ```pip install spotipy```
-- run ```python3 setup.py install```
-- run app.py
+- Just run ```python3 app.py``` and it should work.
+- When logging in, use shared Spotify account or ask devos to add your account to the app.
+  - Spotify API requires you to add access users, so anyone whos email isn't added cannot get their data from the Spotify API through our app. We can have a maximum of 25 users for a single app.
 
 ## Resources:
 - https://spotipy.readthedocs.io/en/2.16.1/
