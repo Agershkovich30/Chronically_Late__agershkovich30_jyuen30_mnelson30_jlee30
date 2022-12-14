@@ -14,18 +14,23 @@ Made first draft of design doc
   - Added a test folder with a working app taken from Eriktoor's github and slightly modified.
   - Setup Spotify Dev App to currently be capable of handling the test app.
   - Updated Readme.md with further resources utilized.
+- Jasmine Yuen:
+  - Looked into possible RESTful APIs that we could use
+  - Spotify API and possibly OAuth
 ================================
 2022-12-08:
 - Amalgamation of research
 - Julia Lee:
   - Discoveries of spotipy and picking apart the eriktoor receiptify app.
+- Jasmine Yuen: 
+  - Researched how other existing Spotify data quantifying apps were made
 ================================
 2022-12-11:
 - Julia Lee:
   - Made working OAuth flow for our website.
   - Created How To Oauth with Spotify.
 - Jasmine:
-  - Added to How To Oauth.
+  - Added to How To Oauth
 ================================
 2022-12-12:
 - Julia Lee:
@@ -33,9 +38,13 @@ Made first draft of design doc
   - Updated app routes to work with templates.
 - Maya and Jasmine:
   - Working on templates (home + top)
+  - HTML for home mainly done
 ================================
 2022-12-13:
 - Julia and Aaron:
   - Tested app and found issue. Working on fixing issue by using communal spotify account.
   - Shared communal account using lastpass which allows login without sharing credentials.
+- Jasmine: 
+  - Worked on adding Bootstrap to home.html
+  - Figured out how to override Bootstrap's css (in order to use custom colors instead of default ones)
 
