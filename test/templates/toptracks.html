@@ -10,18 +10,19 @@
   </h1>
   <form action="/toptracks/{{token}}" method="post">
     {% if data -%}
-    <table>
-      <tr>
-        <th> Place </th>
-        <th> Song </th>
-      </tr>
-      {% for value in data %}
-      <tr>
-        <td>{{offset + data.index(value)}}</td>
-        <td>{{value}}<t/d>
-      </tr>
-      {% endfor %}
-    </table>
+      <table>
+        <tr>
+          <th> Place </th>
+          <th> Song </th>
+        </tr>
+        {% for value in data %}
+        <tr>
+          <td>{{offset + data.index(value) + 1}}</td>
+          <td>{{value}}<t/d>
+        </tr>
+        {% endfor %}
+      </table>
+      <input type="submit" name="offset" value="See next {{limit}}" value={{limit+limit}}>
     {% else -%}
       Start from:
       <input type="text" name="offset">

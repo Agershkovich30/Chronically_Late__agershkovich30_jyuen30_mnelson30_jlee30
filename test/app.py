@@ -79,7 +79,7 @@ def getTracks(token):
             # Add the track's name to our list
             toptracks.append(item.get('name'))
         # Give us the list of our top 50 tracks
-        return render_template("toptracks.html", data = toptracks, offset=int(offset))
+        return render_template("toptracks.html", data = toptracks, offset=int(offset), limit = limit)
     else:
         return render_template("toptracks.html", token=token)
 
