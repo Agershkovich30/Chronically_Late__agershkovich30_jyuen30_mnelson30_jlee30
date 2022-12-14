@@ -21,3 +21,6 @@ Our most certainly professional Spotify Bootstrapped will present you with a var
 - https://spotipy.readthedocs.io/en/2.16.1/
 - https://github.com/eriktoor/receiptify-flask.git
 - https://levelup.gitconnected.com/how-to-build-a-spotify-player-with-react-in-15-minutes-7e01991bc4b6
+
+## API Key Storage and Loading Mechanism:
+ As of right now, we think that there is no necessity for this because the OAuth2 prevents this from being used, our biggest challenge was the Client Secret Id issues, but we are looking for a way to make this possible despite the obstacles.
