@@ -11,7 +11,6 @@ Our most certainly professional Spotify Bootstrapped will present you with a var
 - https://github.com/stuy-softdev/notes-and-code/blob/main/api_kb/411_on_Spotify.md
 - https://github.com/stuy-softdev/notes-and-code/blob/main/api_kb/411_on_genius.md
 - https://github.com/stuy-softdev/notes-and-code/blob/main/api_kb/411_on_MyMemoryTranslated.md
-- https://levelup.gitconnected.com/how-to-build-a-spotify-player-with-react-in-15-minutes-7e01991bc4b6
 
 ## Launch Code [for current test version]:
 - Just run ```python3 app.py``` and it should work.
@@ -21,3 +20,4 @@ Our most certainly professional Spotify Bootstrapped will present you with a var
 ## Resources:
 - https://spotipy.readthedocs.io/en/2.16.1/
 - https://github.com/eriktoor/receiptify-flask.git
+- https://levelup.gitconnected.com/how-to-build-a-spotify-player-with-react-in-15-minutes-7e01991bc4b6
