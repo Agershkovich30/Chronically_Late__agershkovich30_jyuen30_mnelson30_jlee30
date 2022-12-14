@@ -8,10 +8,10 @@ REDIRECT_URL="http://localhost:5000/redirect"
 ACCESS_TOKEN_URL='https://accounts.spotify.com/api/token'
 
 # # setting up template directory
-# TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'test/home.html')
+# TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates/home.html')
 
 # app = Flask(__name__, template_folder=TEMPLATE_DIR, static_folder=TEMPLATE_DIR)
-app = Flask(__name__)
+# app = Flask(__name__)
 app.secret_key = SECRET_KEY
 app.config['SESSION_COOKIE_NAME'] = 'Julia Cookie'
 
