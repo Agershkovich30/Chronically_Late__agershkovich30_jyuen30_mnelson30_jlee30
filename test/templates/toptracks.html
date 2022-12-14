@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Top Tracks</title>
+</head>
+<body>
+  <h1>
+    Top Tracks
+  </h1>
+  <form action="/toptracks/{{token}}" method="post">
+    {% if data -%}
+    <table>
+      <tr>
+        <th> Place </th>
+        <th> Song </th>
+      </tr>
+      {% for value in data %}
+      <tr>
+        <td>{{offset + data.index(value)}}</td>
+        <td>{{value}}<t/d>
+      </tr>
+      {% endfor %}
+    </table>
+    {% else -%}
+      Start from:
+      <input type="text" name="offset">
+      Entries Per Page (max 50):
+      <input type="text" name="limit">
+      <input type="submit" name="sub1">
+    {% endif %}
+</body>
+</html>

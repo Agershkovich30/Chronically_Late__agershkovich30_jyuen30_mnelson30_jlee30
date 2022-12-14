@@ -24,11 +24,13 @@ def login():
     user-library-modify user-library-read user-read-email user-read-private
     ''' #Determines the scope of information you are requesting access to.
     # Gets the URL for the Spotify authorize request page.
-    req = requests.get(f'https://accounts.spotify.com/authorize?client_id={CLIENT_ID}&response_type=code&redirect_uri={REDIRECT_URL}&scope={scope}&show_dialog=true')
+    AUTH_TYPE = 'code'
+    req = requests.get(f'https://accounts.spotify.com/authorize?client_id={CLIENT_ID}&response_type={AUTH_TYPE}&redirect_uri={REDIRECT_URL}&scope={scope}&show_dialog=true')
     temp = req.url
     return redirect(temp)
 
 @app.route('/redirect', methods=["GET","POST"])
+
 def process():
     #Stores the code that you got from the login page when you accepted the connection to spotify
     code = request.args.get('code')
@@ -52,30 +54,34 @@ def process():
 
 @app.route('/toptracks/<token>', methods=['GET','POST'])
 def getTracks(token):
-    ACCESS_TOKEN = token
-    # Provides the access token as a header
-    headers = {
-        "Authorization": f"Bearer {ACCESS_TOKEN}"
-    }
-    # Determines parameters of information to be obtained
-    type = "tracks"
-    limit = 50
-    # Long-term means over the span of multiple years according to spotify documentation
-    time_range = "long_term"
-    # URL that will be used to GET data with appropriate headers
-    lookup_url = f"https://api.spotify.com/v1/me/top/{type}?limit={limit}&time_range={time_range}"
-    req = requests.get(lookup_url, headers=headers)
-    allData = req.json()
-    # Creates a list for top tracks to be listed
-    toptracks = []
-    # First, gets all of the data from the json data we requested earlier
-    data = req.json().get('items')
-    # For every item in that list of tracks
-    for item in data:
-        # Add the track's name to our list
-        toptracks.append(item.get('name'))
-    # Give us the list of our top 50 tracks
-    return toptracks
+    if request.method == "POST":
+        ACCESS_TOKEN = token
+        # Provides the access token as a header
+        headers = {
+            "Authorization": f"Bearer {ACCESS_TOKEN}"
+        }
+        # Determines parameters of information to be obtained
+        type = "tracks"
+        limit = request.form['limit']
+        offset = request.form['offset']
+        # Long-term means over the span of multiple years according to spotify documentation
+        time_range = "long_term"
+        # URL that will be used to GET data with appropriate headers
+        lookup_url = f"https://api.spotify.com/v1/me/top/{type}?limit={limit}&offset={offset}&time_range={time_range}"
+        req = requests.get(lookup_url, headers=headers)
+        allData = req.json()
+        # Creates a list for top tracks to be listed
+        toptracks = []
+        # First, gets all of the data from the json data we requested earlier
+        data = req.json().get('items')
+        # For every item in that list of tracks
+        for item in data:
+            # Add the track's name to our list
+            toptracks.append(item.get('name'))
+        # Give us the list of our top 50 tracks
+        return render_template("toptracks.html", data = toptracks, offset=int(offset))
+    else:
+        return render_template("toptracks.html", token=token)
 
 @app.route('/topartists/<token>', methods=['GET','POST'])
 def getArtists(token):
@@ -86,11 +92,12 @@ def getArtists(token):
     }
     # Determines parameters of information to be obtained
     type = "artists"
+    offset = 0
     limit = 50
     # Long-term means over the span of multiple years according to spotify documentation
     time_range = "long_term"
     # URL that will be used to GET data with appropriate headers
-    lookup_url = f"https://api.spotify.com/v1/me/top/{type}?limit={limit}&time_range={time_range}"
+    lookup_url = f"https://api.spotify.com/v1/me/top/{type}?limit={limit}&offset={offset}&time_range={time_range}"
     req = requests.get(lookup_url, headers=headers)
     allData = req.json()
     # Creates a list for top tracks to be listed
