@@ -2,13 +2,13 @@
 
 <html>
 <head>
-  <title>Top Tracks</title>
+  <title>Top Artists</title>
 </head>
 <body>
   <h1>
-    Top Tracks
+    Top Artists
   </h1>
-  <form action='/toptracks?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset + newlimit}}' method="POST">
+  <form action='/topartists?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset + newlimit}}' method="POST">
     {% if data -%}
       <table>
         <tr>
