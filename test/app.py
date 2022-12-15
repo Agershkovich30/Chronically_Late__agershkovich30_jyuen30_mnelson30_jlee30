@@ -2,11 +2,16 @@ from flask import Flask, request, url_for, session, redirect, render_template
 import requests
 import base64
 from credentials import CLIENT_ID, CLIENT_SECRET, SECRET_KEY
+import os
 
 REDIRECT_URL="http://localhost:5000/redirect"
 ACCESS_TOKEN_URL='https://accounts.spotify.com/api/token'
 
-app = Flask(__name__)
+# # setting up template directory
+# TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates/home.html')
+
+# app = Flask(__name__, template_folder=TEMPLATE_DIR, static_folder=TEMPLATE_DIR)
+# app = Flask(__name__)
 app.secret_key = SECRET_KEY
 app.config['SESSION_COOKIE_NAME'] = 'Julia Cookie'
 
