@@ -7,8 +7,12 @@ import os
 REDIRECT_URL="http://localhost:5000/redirect"
 ACCESS_TOKEN_URL='https://accounts.spotify.com/api/token'
 
-# # setting up template directory
-# TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates/home.html')
+# setting up template directory
+
+current_path = os.getcwd()
+TEMPLATE_DIR = os.path.join(current_path, 'static/style.css')
+print(current_path)
+print(TEMPLATE_DIR)
 
 # app = Flask(__name__, template_folder=TEMPLATE_DIR, static_folder=TEMPLATE_DIR)
 app = Flask(__name__)
@@ -17,7 +21,7 @@ app.config['SESSION_COOKIE_NAME'] = 'Julia Cookie'
 
 @app.route('/')
 def index():
-    return render_template('home.html')
+    return render_template('home.html', css_file=TEMPLATE_DIR)
 
 #Redirects you to the Spotify authorize request page.
 @app.route('/login', methods=["GET","POST"])
