@@ -3,7 +3,7 @@ The Start of Something Great!
 2022-12-5: All
 Made first draft of design doc
 ================================
-2022-12-06: 
+2022-12-06:
 - MayaN:
   - Updated design doc by clarifying the API descriptions and organizing tables
 - Julia Lee:
@@ -22,7 +22,7 @@ Made first draft of design doc
 - Amalgamation of research
 - Julia Lee:
   - Discoveries of spotipy and picking apart the eriktoor receiptify app.
-- Jasmine Yuen: 
+- Jasmine Yuen:
   - Researched how other existing Spotify data quantifying apps were made
 ================================
 2022-12-11:
@@ -44,7 +44,14 @@ Made first draft of design doc
 - Julia and Aaron:
   - Tested app and found issue. Working on fixing issue by using communal spotify account.
   - Shared communal account using lastpass which allows login without sharing credentials.
-- Jasmine: 
+- Jasmine:
   - Worked on adding Bootstrap to home.html
   - Figured out how to override Bootstrap's css (in order to use custom colors instead of default ones)
-
+===============================
+2022-12-14:
+- Julia:
+  - Opened issue regarding sharing of credentials and how to have others test our app.
+  - Working display of top tracks and artists
+  - See next functionality to allow user to utilize offset to view next {number} artists.
+  - Added navigation between pages so that user can ask for the number of entries per page and offset.
+  - To Do: Setup database so that see next functionality of top tracks works better.
