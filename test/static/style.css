@@ -4,13 +4,34 @@
 
 .navbar-brand {
     color:white;
+    padding-left: 20px;
 }
 
 .body {
-    background-color:#00B32C;
+    background-color:#D4FCC3;
 }
 
 .description {
-    background-color: #0D5901;
+    background-image: url("http://schools.stlucie.k12.fl.us/swc/files/2014/12/blue-christmas-snow-fall-animation.gif");
     color:white;
+    padding:30px;
+    font-size: 20px;
+}
+
+.body-center {
+    margin-right: 15vw;
+    margin-left: 15vw;
+}
+
+.login-button {
+    padding-right: 30px;
+    background-color: green;
+}
+
+.disclaimer {
+    color:grey;
+}
+
+.team-name {
+    color:firebrick;
 }
