@@ -13,6 +13,7 @@ Our most certainly professional Spotify Bootstrapped will present you with a var
 - https://github.com/stuy-softdev/notes-and-code/blob/main/api_kb/411_on_MyMemoryTranslated.md
 
 ## Launch Code [for current test version]:
+- in terminal: ~```pip install requests```
 - Just run ```python3 app.py``` and it should work.
 - When logging in, use shared Spotify account or ask devos to add your account to the app.
   - Spotify API requires you to add access users, so anyone whos email isn't added cannot get their data from the Spotify API through our app. We can have a maximum of 25 users for a single app.
