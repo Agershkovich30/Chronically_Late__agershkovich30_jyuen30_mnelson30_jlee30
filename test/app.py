@@ -30,6 +30,11 @@ def login():
     temp = req.url
     return redirect(temp)
 
+@app.route('/back', methods=["GET","POST"])
+def back(): 
+    access_token = request.args.get('token')
+    return render_template('stats.html', access_token=access_token)
+
 @app.route('/redirect', methods=["GET","POST"])
 def process():
     #Stores the code that you got from the login page when you accepted the connection to spotify

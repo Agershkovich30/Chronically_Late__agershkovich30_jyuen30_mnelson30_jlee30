@@ -13,17 +13,17 @@
         <input type="submit" value="log in">
         </form>
     -->
-    <button type="button" class="login-button btn btn-lg">
-        <form action="/login">
-            <input type="submit" value="log in">
-        </form>
-    </button>
+    <form action="/login">
+      <input type="submit" value="choose different account" class="login-button btn text-center">  
+   </form>
   </div>
 </head>
-<body>
-  <h1>
+<body class="body">
+  <div class="text-center body-center">
+  <h1 class="text-center body-center">
     Top Artists
   </h1>
+  <br>
   <form action='/topartists?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset + newlimit}}' method="POST">
     {% if data -%}
       <table>
@@ -45,8 +45,9 @@
       <input type="text" name="offset">
       Entries Per Page (max 50):
       <input type="text" name="limit">
-      <input type="submit" name="see more" value="first">
+      <input type="submit" name="see more" value="go!" class="login-button">
     {% endif %}
   </form>
+</div>
 </body>
 </html>

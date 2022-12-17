@@ -12,24 +12,25 @@
         <input type="submit" value="log in">
         </form>
     -->
-    <button type="button" class="login-button btn btn-lg">
-        <form action="/login">
-            <input type="submit" value="log in">
-        </form>
-    </button>
+    <form action="/login">
+      <input type="submit" value="choose different account" class="login-button btn text-center">  
+   </form>
   </div>
 </head>
-<body>
-  <div class="text-center">
-    <h1>
-      Choose your Trade
+<body class="body">
+  <div class="text-center body-center">
+    <br>
+    <h1 class="big-text">
+      Choose your Trade!
     </h1>
-    {{access_token}}
+    <br>
     <form action="/choose?token={{access_token}}" method="POST">
-      <input type="submit" name="submit_button" value="Get Top Tracks">
+      <input type="submit" name="submit_button" value="Get Top Tracks" class="big-button btn text-center">
     </form>
+    <br>
+    <br>
     <form action="/choose?token={{access_token}}" method="POST">
-      <input type="submit" name="submit_button" value="Get Top Artists">
+      <input type="submit" name="submit_button" value="Get Top Artists" class="big-button btn text-center">
     </form>
   </div>
 </body>
