@@ -60,3 +60,9 @@ Made first draft of design doc
 - Jasmine and Maya:
   - Resolved an issue with the HTML page not rendering the full CSS when run through Flask app
   - Added some more bootstrap
+===============================
+2022-12-17
+- Maya:
+  - Added CSS and fixed html issues for stats, top tracks, and top artist pages
+  - Attempted adding a home button to redirect back to the choose page
+  - Bootstrap my beloved
