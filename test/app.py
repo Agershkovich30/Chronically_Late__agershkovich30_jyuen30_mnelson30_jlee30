@@ -99,11 +99,30 @@ def getTracks():
         # For every item in that list of tracks
         for item in data:
             # Add the track's name to our list
-            toptracks.append(item.get('name'))
+            temp = [item.get('name'),item.get('id')]
+            toptracks.append(temp)
         # Give us the list of our top 50 tracks
         return render_template("toptracks.html", data=toptracks, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN)
     else:
         return render_template("toptracks.html", oldtoken=ACCESS_TOKEN, newlimit=0, newoffset=0)
+
+@app.route('/toptracks/<trackid>', methods=['GET','POST'])
+def displayTrack(trackid):
+    ACCESS_TOKEN = request.args.get('token')
+    if request.method == "POST":
+        headers = {
+            "Authorization": f"Bearer {ACCESS_TOKEN}"
+        }
+        type = "tracks"
+        lookup_url = f"https://api.spotify.com/v1/{type}/{trackid}"
+        req = requests.get(lookup_url, header=headers)
+        allData = req.json()
+        trackdata = []
+        urls = allData.get('external_urls')
+        trackdata.append(urls.get('href'))
+        return f'This is the {trackid} and this is the link: {trackdata[0]}'
+    else:
+        return "this doesn't work :("
 
 @app.route('/topartists', methods=['GET','POST'])
 def getArtists():
@@ -136,7 +155,8 @@ def getArtists():
         # For every item in that list of tracks
         for item in data:
             # Add the track's name to our list
-            toptracks.append(item.get('name'))
+            temp = [item.get('name'),str(item.get('id'))]
+            toptracks.append(temp)
         # Give us the list of our top 50 tracks
         return render_template("topartists.html", data=toptracks, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN)
     else:
