@@ -18,7 +18,7 @@
         </form>
     -->
     <form action="/login">
-      <input type="submit" value="choose different account" class="login-button btn text-center">  
+      <input type="submit" value="choose different account" class="login-button btn text-center">
    </form>
   </div>
   <ul class="lightrope">
@@ -68,16 +68,24 @@
 </head>
 <body class="body">
   <div class="text-center body-center">
-  <h1 class="text-center body-center">
-    Top Artists
-  </h1>
+    <h1> Your Top Artist:  {{topArtist}}</h1>
+    <body> Here's some information about your favorite artist
+    </br>
+    Birthday: {{birthday}} </br>
+    Nationality: {{nationality}}</br>
+    Net Worth: {{netWorth}}
+    </br></br></br></br></br>
+    </body>
+  <h2 class="text-center body-center">
+    Top Artists Ranked
+  </h2>
   <br>
   <form action='/topartists?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset + newlimit}}' method="POST">
     {% if data -%}
       <table>
         <tr>
           <th> Place </th>
-          <th> Song </th>
+          <th> Artist </th>
         </tr>
         {% for value in data %}
         <tr>
@@ -96,6 +104,9 @@
       <input type="submit" name="see more" value="go!" class="login-button">
     {% endif %}
   </form>
+</div>
+<div class="text-right body-right">
+
 </div>
 </body>
 </html>
