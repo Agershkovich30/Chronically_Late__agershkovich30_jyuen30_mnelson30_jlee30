@@ -72,6 +72,8 @@
     Top Tracks
   </h1>
   <br>
+  {{LYRICS_BODY}}
+  <br>
   <form action='/toptracks?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset + newlimit}}' method="POST">
     {% if data -%}
       <table>
