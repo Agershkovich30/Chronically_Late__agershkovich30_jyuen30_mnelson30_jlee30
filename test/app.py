@@ -31,7 +31,7 @@ def login():
     return redirect(temp)
 
 @app.route('/back', methods=["GET","POST"])
-def back(): 
+def back():
     access_token = request.args.get('token')
     return render_template('stats.html', access_token=access_token)
 
@@ -157,11 +157,16 @@ def getArtists():
             # Add the track's name to our list
             temp = [item.get('name'),str(item.get('id'))]
             toptracks.append(temp)
-        # Give us the list of our top 50 tracks
-        return render_template("topartists.html", data=toptracks, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN)
+        name = data[0].get('name')
+        api_url = 'https://api.api-ninjas.com/v1/celebrity?name={}'.format(name)
+        response = requests.get(api_url, headers={'X-Api-Key': '+M6tFBonGGlY40Dep3Fz5A==F0lCCUzJh88dYOtQ'})
+        AllData = response.json()
+        NetWorthData = AllData[0].get('net_worth')
+        Nationality = AllData[0].get('nationality')
+        Birthday = AllData[0].get('birthday')
+        return render_template("topartists.html", data=toptracks, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN, netWorth= NetWorthData, topArtist= name, nationality = Nationality, birthday = Birthday)
     else:
         return render_template("topartists.html", oldtoken=ACCESS_TOKEN, newlimit=0, newoffset=0)
-
 if __name__ == '__main__':
     app.run(
     debug = True
