@@ -1,7 +1,7 @@
 # How To :: OAUTH 2.0 (with API)
 ### Feat. Spotify
 ---
-## Overview
+## Overview:
 OAuth is an authorization tool that many applications use in order to gain access to information from different sources on a user without actually gathering their account credentials. After having the user log into their account on a different platform, the application then receives an access token that they can then use to gather the information that they need.
 
 IMPORTANT: OAuth is an AUTHORIZATION FRAMEWORK, not an AUTHENTIFICATION. It only authorizes the sending of data, not the direct authentification
