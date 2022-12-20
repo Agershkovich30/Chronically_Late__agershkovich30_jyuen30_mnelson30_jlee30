@@ -147,26 +147,26 @@ def getArtists():
         # URL that will be used to GET data with appropriate headers
         lookup_url = f"https://api.spotify.com/v1/me/top/{type}?limit={limit}&offset={offset}&time_range={time_range}"
         req = requests.get(lookup_url, headers=headers)
-        allData = req.json()
-        # Creates a list for top tracks to be listed
-        toptracks = []
+        # Creates a list for top artists to be listed
+        topartists = []
         # First, gets all of the data from the json data we requested earlier
-        data = req.json().get('items')
-        # For every item in that list of tracks
+        data = req.json().get('name')
+        # For every item in that list of artists
         for item in data:
-            # Add the track's name to our list
-            temp = [item.get('name'),str(item.get('id'))]
-            toptracks.append(temp)
-        name = data[0].get('name')
-        api_url = 'https://api.api-ninjas.com/v1/celebrity?name={}'.format(name)
-        response = requests.get(api_url, headers={'X-Api-Key': '+M6tFBonGGlY40Dep3Fz5A==F0lCCUzJh88dYOtQ'})
-        AllData = response.json()
-        NetWorthData = AllData[0].get('net_worth')
-        Nationality = AllData[0].get('nationality')
-        Birthday = AllData[0].get('birthday')
-        return render_template("topartists.html", data=toptracks, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN, netWorth= NetWorthData, topArtist= name, nationality = Nationality, birthday = Birthday)
+            # Add the artist's name to our list
+            topartists.append(item.get('name'))
+        # name = topartists[0].get('name')
+        # api_url = 'https://api.api-ninjas.com/v1/celebrity?name={}'.format(name)
+        # response = requests.get(api_url, headers={'X-Api-Key': '+M6tFBonGGlY40Dep3Fz5A==F0lCCUzJh88dYOtQ'})
+        # AllData = response.json()
+        # NetWorthData = AllData[0].get('net_worth')
+        # Nationality = AllData[0].get('nationality')
+        # Birthday = AllData[0].get('birthday')
+        # return render_template("topartists.html", data=topartists, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN, netWorth= NetWorthData, topArtist= name, nationality = Nationality, birthday = Birthday)
+        return render_template("topartists.html", data=topartists, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN)
     else:
         return render_template("topartists.html", oldtoken=ACCESS_TOKEN, newlimit=0, newoffset=0)
+
 if __name__ == '__main__':
     app.run(
     debug = True
