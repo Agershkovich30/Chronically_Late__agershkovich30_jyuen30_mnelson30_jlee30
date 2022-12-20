@@ -80,10 +80,13 @@ def getTracks():
         headers = {
             "Authorization": f"Bearer {ACCESS_TOKEN}"
         }
+        # If we don't have the data for the request, it will redirect the user to the page to choose a new journey.
+        if int(request.args.get('offset')) + int(request.args.get('limit')) > 100:
+            return render_template("stats.html", oldtoken=ACCESS_TOKEN)
+        # If the user requested to see more information, gives the next set of top tracks.
         if request.form["see more"] == "add":
-            limit = int(request.args.get('limit'))
-            offset = int(request.args.get('offset'))
-        # Determines parameters of information to be obtained
+            limit = int(request.args.get('limit')) 
+            offset = int(request.args.get('offset')) # Moves offset over by however much the limit is.
         else:
             limit = int(request.form['limit'])
             offset = int(request.form['offset'])
@@ -100,10 +103,11 @@ def getTracks():
             lookup_url = f"https://api.spotify.com/v1/me/top/{type}?limit=50&offset=49&time_range={time_range}"
             req = requests.get(lookup_url, headers=headers)
             allData = req.json()
-            items = allData.get("items")
+            items = allData.get("items") # List with each of the artists
             topTracks_table.create(cursor=connection.cursor(), list=items, start=49)
         data = {}
         i = offset
+        # Creates a dictionary with each of the artists and their information using the database. Each dict value is a tuple.
         while i < limit+offset:
             data[str(i)] = topTracks_table.get(cursor=connection.cursor(), rank=i)
             i += 1
@@ -137,6 +141,8 @@ def getArtists():
         headers = {
             "Authorization": f"Bearer {ACCESS_TOKEN}"
         }
+        if int(request.args.get('offset')) + int(request.args.get('limit')) > 100:
+            return render_template("stats.html", oldtoken=ACCESS_TOKEN)
         if request.form["see more"] == "add":
             limit = int(request.args.get('limit'))
             offset = int(request.args.get('offset'))
