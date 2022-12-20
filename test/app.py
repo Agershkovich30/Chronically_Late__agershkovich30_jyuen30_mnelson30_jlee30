@@ -98,18 +98,18 @@ def getTracks():
             req = requests.get(lookup_url, headers=headers)
             allData = req.json()
             items = allData.get("items")
-            topTracks_table.create(cursor=connection.cursor(), list=items, start=0)
+            topTracks_table.create(cursor=connection.cursor(), list=items, start=0, key=ACCESS_TOKEN)
             # URL that will be used to GET data with appropriate headers
             lookup_url = f"https://api.spotify.com/v1/me/top/{type}?limit=50&offset=49&time_range={time_range}"
             req = requests.get(lookup_url, headers=headers)
             allData = req.json()
             items = allData.get("items") # List with each of the artists
-            topTracks_table.create(cursor=connection.cursor(), list=items, start=49)
+            topTracks_table.create(cursor=connection.cursor(), list=items, start=49, key=ACCESS_TOKEN)
         data = {}
         i = offset
         # Creates a dictionary with each of the artists and their information using the database. Each dict value is a tuple.
         while i < limit+offset:
-            data[str(i)] = topTracks_table.get(cursor=connection.cursor(), rank=i)
+            data[str(i)] = topTracks_table.get(cursor=connection.cursor(), rank=i, session_key=ACCESS_TOKEN)
             i += 1
         return render_template("toptracks.html", data=data, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN)
     else:
@@ -158,17 +158,17 @@ def getArtists():
             req = requests.get(lookup_url, headers=headers)
             allData = req.json()
             items = allData.get("items")
-            topArtists_table.create(cursor=connection.cursor(), list=items, start=0)
+            topArtists_table.create(cursor=connection.cursor(), list=items, start=0, key=ACCESS_TOKEN)
             # URL that will be used to GET data with appropriate headers
             lookup_url = f"https://api.spotify.com/v1/me/top/{type}?limit=50&offset=49&time_range={time_range}"
             req = requests.get(lookup_url, headers=headers)
             allData = req.json()
             items = allData.get("items")
-            topArtists_table.create(cursor=connection.cursor(), list=items, start=49)
+            topArtists_table.create(cursor=connection.cursor(), list=items, start=49, key=ACCESS_TOKEN)
         data = {}
         i = offset
         while i < limit+offset:
-            data[str(i)] = topArtists_table.get(cursor=connection.cursor(), rank=i)
+            data[str(i)] = topArtists_table.get(cursor=connection.cursor(), rank=i, session_key=ACCESS_TOKEN)
             i += 1
         return render_template("topartists.html", data=data, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN)
         # name = topartists[0].get('name')

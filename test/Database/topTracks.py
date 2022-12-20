@@ -1,9 +1,9 @@
 '''
 Creates database of Top Artists
 '''
-def create(cursor, list, start):
+def create(cursor, list, start, key):
     ID_counter = 0
-    query = "INSERT OR IGNORE INTO toptracks( 'name', 'rank', 'id', 'albumID', 'artists', 'trackNUM', 'duration', 'popularity', 'previewURL'"
+    query = "INSERT OR IGNORE INTO toptracks( 'name', 'rank', 'id', 'albumID', 'artists', 'trackNUM', 'duration', 'popularity', 'previewURL', 'session_key'"
     query += f") VALUES"
     for item in list:
         if str(list[ID_counter].get("name")).find('"') != -1:
@@ -20,7 +20,8 @@ def create(cursor, list, start):
         query += str(list[ID_counter].get("track_number")) + ', '
         query += str(list[ID_counter].get("duration_ms")) + ', '
         query += str(list[ID_counter].get("popularity")) + ', '
-        query += '"' + str(list[ID_counter].get("preview_url"))
+        query += '"' + str(list[ID_counter].get("preview_url"))+ '", '
+        query += '"' + key
         query += '"), \n'
         ID_counter += 1
     query = query[:-3]

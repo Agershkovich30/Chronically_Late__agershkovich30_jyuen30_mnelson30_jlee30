@@ -11,12 +11,14 @@ connection.execute('CREATE TABLE IF NOT EXISTS ' +
     '"trackNUM" INT, ' +
     '"duration" INT, ' +
     '"popularity" INT, ' +
-    '"previewURL" TEXT)'
+    '"previewURL" TEXT, '+
+    '"session_key" TEXT)'
 )
 
 connection.execute('CREATE TABLE IF NOT EXISTS ' +
     'topartists (name TEXT,' +
     'rank INT, ' +
     'id TEXT, ' +
-    'popularity INT)'
+    'popularity INT, '+
+    '"session_key" TEXT)'
 )
