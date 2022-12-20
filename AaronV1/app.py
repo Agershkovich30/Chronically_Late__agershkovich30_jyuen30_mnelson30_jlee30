@@ -124,19 +124,19 @@ def displayTrack(trackid):
         urls = allData.get('external_urls')
         trackdata.append(urls.get('href'))
         return f'This is the {trackid} and this is the link: {trackdata[0]}'
-        oauth_object = spotipy.SpotifyOAuth(clientID,clientSecret,redirectURI)
-        spotifyObject = spotipy.Spotify(auth=access_token)
-        user = spotifyObject.current_user()
-        print(json.dumps(user,sort_keys=True, indent=4))
-        # Search for the Song.
-        searchResults = spotifyObject.search(searchQuery,1,0, allData[0].get('track'))
-        # Get required data from JSON response.
-        tracks_dict = searchResults['tracks']
-        tracks_items = tracks_dict['items']
-        song = tracks_items[0]['external_urls']['spotify']
-        # Open the Song in Web Browser
-        webbrowser.open(song)
-        print('Song has opened in your browser.')
+        # oauth_object = spotipy.SpotifyOAuth(clientID,clientSecret,redirectURI)
+        # spotifyObject = spotipy.Spotify(auth=access_token)
+        # user = spotifyObject.current_user()
+        # print(json.dumps(user,sort_keys=True, indent=4))
+        # # Search for the Song.
+        # searchResults = spotifyObject.search(searchQuery,1,0, allData[0].get('track'))
+        # # Get required data from JSON response.
+        # tracks_dict = searchResults['tracks']
+        # tracks_items = tracks_dict['items']
+        # song = tracks_items[0]['external_urls']['spotify']
+        # # Open the Song in Web Browser
+        # webbrowser.open(song)
+        # print('Song has opened in your browser.')
     else:
         return "this doesn't work :("
 
