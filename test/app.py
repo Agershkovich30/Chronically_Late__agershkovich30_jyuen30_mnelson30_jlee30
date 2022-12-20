@@ -38,7 +38,7 @@ def login():
 @app.route('/back', methods=["GET","POST"])
 def back():
     access_token = request.args.get('token')
-    return render_template('stats.html', access_token=access_token)
+    return render_template('stats.html', old_token=access_token)
 
 @app.route('/redirect', methods=["GET","POST"])
 def process():
@@ -60,17 +60,17 @@ def process():
     #POST request using the code obtained from logging in. Most importantly, returns the token.
     req = requests.post(ACCESS_TOKEN_URL,data=form,headers=headers)
     access_token = req.json().get('access_token')
-    return render_template('stats.html', access_token=access_token)
+    return render_template('stats.html', oldtoken=access_token)
 
 @app.route('/choose', methods=["GET", "POST"])
 def choose():
+    access_token = request.args.get('token')
     if request.method == "POST":
-        access_token = request.args.get('token')
         if request.form["submit_button"] == "Get Top Tracks":
             return render_template("toptracks.html", oldtoken=access_token, newlimit=0, newoffset=0)
         elif request.form["submit_button"] == "Get Top Artists":
             return render_template("topartists.html", oldtoken=access_token, newlimit=0, newoffset=0)
-    return render_template('stats.html', token=access_token)
+    return render_template('stats.html', oldtoken=access_token)
 
 @app.route('/toptracks', methods=['GET','POST'])
 def getTracks():
