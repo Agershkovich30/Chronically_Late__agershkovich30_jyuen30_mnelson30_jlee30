@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Top Tracks</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../static/style.css">
+
+  <!--LIGHTS.CSS SOURCED FROM https://codepen.io/tobyj/pen/QjvEex-->
+
+  <link rel="stylesheet" href="../static/lights.css">
+  <div class="navbar navbar-inverse">
+    <!--LEFT-ALIGNED HEADER-->
+    <h3 class="navbar-brand">Spotify Bootstrapped & Giftwrapped</h3>
+    <!--
+        <form action="/login" class="login-button btn btn-lg">
+        <input type="submit" value="log in">
+        </form>
+    -->
+    <form action="/login">
+      <input type="submit" value="choose different account" class="login-button btn text-center">  
+   </form>
+  </div>
+  <ul class="lightrope">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+</head>
+<body class="body">
+  <div class="text-center body-center">
+  <h1>
+    Top Tracks
+  </h1>
+  <br>
+  {{LYRICS_BODY}}
+  <br>
+  <form action='/toptracks?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset + newlimit}}' method="POST">
+    {% if data -%}
+      <table>
+        <tr>
+          <th> Place </th>
+          <th> Song </th>
+          <th> Song ID </th>
+        </tr>
+        {% for value in data %}
+        <tr>
+          <td>{{newoffset + data.index(value) + 1}}</td>
+          {% for x in value %}
+          <td>{{x}}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </table>
+      <p>Limit: {{newlimit}}, Offset: {{newoffset}}</p>
+      <input type="submit" value="add" name="see more">
+    {% else -%}
+      Start from:
+      <input type="text" name="offset">
+      Entries Per Page (max 50):
+      <input type="text" name="limit">
+      <input type="submit" name="see more" value="go!" class="login-button">
+    {% endif %}
+  </form>
+</div>
+</body>
+</html>
