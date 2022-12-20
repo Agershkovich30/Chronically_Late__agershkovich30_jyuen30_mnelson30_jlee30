@@ -69,3 +69,8 @@ Made first draft of design doc
 - Julia:
   - Finished organizing database for top artists and top tracks.
   - Made some minor changes to make site navigation easier.
+===============================
+2022-12-19
+- Maya & Jasmine:
+  - Started adding lyrics API
+  - Bug fixing
