@@ -3,8 +3,8 @@ import requests
 import base64
 from credentials import CLIENT_ID, CLIENT_SECRET, SECRET_KEY
 import os
-import database.topTracks as topTracks_table
-import database.topArtists as topArtists_table
+import Database.topTracks as topTracks_table
+import Database.topArtists as topArtists_table
 import sqlite3
 
 REDIRECT_URL="http://localhost:5000/redirect"
