@@ -3,6 +3,9 @@ import requests
 import base64
 from credentials import CLIENT_ID, CLIENT_SECRET, SECRET_KEY
 import os
+import database.topTracks as topTracks_table
+import database.topArtists as topArtists_table
+import sqlite3
 
 REDIRECT_URL="http://localhost:5000/redirect"
 ACCESS_TOKEN_URL='https://accounts.spotify.com/api/token'
@@ -10,6 +13,8 @@ ACCESS_TOKEN_URL='https://accounts.spotify.com/api/token'
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
 app.config['SESSION_COOKIE_NAME'] = 'Julia Cookie'
+database_name = "Spotify.db"
+connection = sqlite3.connect(database_name, check_same_thread = False)
 
 @app.route('/')
 def index():
@@ -78,31 +83,31 @@ def getTracks():
         if request.form["see more"] == "add":
             limit = int(request.args.get('limit'))
             offset = int(request.args.get('offset'))
-            if offset >= 40 and limit <= 40:
-                limit += limit
         # Determines parameters of information to be obtained
         else:
-            limit = request.form['limit']
-            offset = request.form['offset']
-        type = "tracks"
-        # Long-term means over the span of multiple years according to spotify documentation
-        time_range = "long_term"
-        # URL that will be used to GET data with appropriate headers
-        lookup_url = f"https://api.spotify.com/v1/me/top/{type}?limit={limit}&offset={offset}&time_range={time_range}"
-        req = requests.get(lookup_url, headers=headers)
-        allData = req.json()
-        # Creates a list for top tracks to be listed
-        toptracks = []
-        # First, gets all of the data from the json data we requested earlier
-        data = req.json().get('items')
-        print(req)
-        # For every item in that list of tracks
-        for item in data:
-            # Add the track's name to our list
-            temp = [item.get('name'),item.get('id')]
-            toptracks.append(temp)
-        # Give us the list of our top 50 tracks
-        return render_template("toptracks.html", data=toptracks, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN)
+            limit = int(request.form['limit'])
+            offset = int(request.form['offset'])
+            type = "tracks"
+            # Long-term means over the span of multiple years according to spotify documentation
+            time_range = "long_term"
+            # URL that will be used to GET data with appropriate headers
+            lookup_url = f"https://api.spotify.com/v1/me/top/{type}?limit=50&offset=0&time_range={time_range}"
+            req = requests.get(lookup_url, headers=headers)
+            allData = req.json()
+            items = allData.get("items")
+            topTracks_table.create(cursor=connection.cursor(), list=items, start=0)
+            # URL that will be used to GET data with appropriate headers
+            lookup_url = f"https://api.spotify.com/v1/me/top/{type}?limit=50&offset=49&time_range={time_range}"
+            req = requests.get(lookup_url, headers=headers)
+            allData = req.json()
+            items = allData.get("items")
+            topTracks_table.create(cursor=connection.cursor(), list=items, start=49)
+        data = {}
+        i = offset
+        while i < limit+offset:
+            data[str(i)] = topTracks_table.get(cursor=connection.cursor(), rank=i)
+            i += 1
+        return render_template("toptracks.html", data=data, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN)
     else:
         return render_template("toptracks.html", oldtoken=ACCESS_TOKEN, newlimit=0, newoffset=0)
 
@@ -135,26 +140,31 @@ def getArtists():
         if request.form["see more"] == "add":
             limit = int(request.args.get('limit'))
             offset = int(request.args.get('offset'))
-            if offset >= 40 and limit <= 40:
-                limit += (offset-limit)
         # Determines parameters of information to be obtained
         else:
-            limit = request.form['limit']
-            offset = request.form['offset']
-        type = "artists"
-        # Long-term means over the span of multiple years according to spotify documentation
-        time_range = "long_term"
-        # URL that will be used to GET data with appropriate headers
-        lookup_url = f"https://api.spotify.com/v1/me/top/{type}?limit={limit}&offset={offset}&time_range={time_range}"
-        req = requests.get(lookup_url, headers=headers)
-        # Creates a list for top artists to be listed
-        topartists = []
-        # First, gets all of the data from the json data we requested earlier
-        data = req.json().get('name')
-        # For every item in that list of artists
-        for item in data:
-            # Add the artist's name to our list
-            topartists.append(item.get('name'))
+            limit = int(request.form['limit'])
+            offset = int(request.form['offset'])
+            type = "artists"
+            # Long-term means over the span of multiple years according to spotify documentation
+            time_range = "long_term"
+            # URL that will be used to GET data with appropriate headers
+            lookup_url = f"https://api.spotify.com/v1/me/top/{type}?limit=50&offset=0&time_range={time_range}"
+            req = requests.get(lookup_url, headers=headers)
+            allData = req.json()
+            items = allData.get("items")
+            topArtists_table.create(cursor=connection.cursor(), list=items, start=0)
+            # URL that will be used to GET data with appropriate headers
+            lookup_url = f"https://api.spotify.com/v1/me/top/{type}?limit=50&offset=49&time_range={time_range}"
+            req = requests.get(lookup_url, headers=headers)
+            allData = req.json()
+            items = allData.get("items")
+            topArtists_table.create(cursor=connection.cursor(), list=items, start=49)
+        data = {}
+        i = offset
+        while i < limit+offset:
+            data[str(i)] = topArtists_table.get(cursor=connection.cursor(), rank=i)
+            i += 1
+        return render_template("topartists.html", data=data, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN)
         # name = topartists[0].get('name')
         # api_url = 'https://api.api-ninjas.com/v1/celebrity?name={}'.format(name)
         # response = requests.get(api_url, headers={'X-Api-Key': '+M6tFBonGGlY40Dep3Fz5A==F0lCCUzJh88dYOtQ'})
@@ -162,8 +172,6 @@ def getArtists():
         # NetWorthData = AllData[0].get('net_worth')
         # Nationality = AllData[0].get('nationality')
         # Birthday = AllData[0].get('birthday')
-        # return render_template("topartists.html", data=topartists, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN, netWorth= NetWorthData, topArtist= name, nationality = Nationality, birthday = Birthday)
-        return render_template("topartists.html", data=topartists, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN)
     else:
         return render_template("topartists.html", oldtoken=ACCESS_TOKEN, newlimit=0, newoffset=0)
 

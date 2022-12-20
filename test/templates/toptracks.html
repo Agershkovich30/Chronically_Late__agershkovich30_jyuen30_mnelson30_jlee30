@@ -80,18 +80,18 @@
         <tr>
           <th> Place </th>
           <th> Song </th>
+          <th> Artists </th>
           <th> Song ID </th>
         </tr>
-        {% for value in data %}
+        {% for key in data.keys() %}
         <tr>
-          <td>{{newoffset + data.index(value) + 1}}</td>
-          {% for x in value %}
-          <td>{{x}}</td>
-          {% endfor %}
+          <td>{{ key | int }}</td>
+          <td>{{data.get(key)[0]}}</td>
+          <td>{{data.get(key)[4]}}</td>
+          <td>{{data.get(key)[2]}}</td>
         </tr>
         {% endfor %}
       </table>
-      <p>Limit: {{newlimit}}, Offset: {{newoffset}}</p>
       <input type="submit" value="add" name="see more">
     {% else -%}
       Start from:
