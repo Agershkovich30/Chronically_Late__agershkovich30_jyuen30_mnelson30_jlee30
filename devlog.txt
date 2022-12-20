@@ -55,8 +55,6 @@ Made first draft of design doc
   - See next functionality to allow user to utilize offset to view next {number} artists.
   - Added navigation between pages so that user can ask for the number of entries per page and offset.
   - To Do: Setup database so that see next functionality of top tracks works better.
-===============================
-2022-12-14
 - Jasmine and Maya:
   - Resolved an issue with the HTML page not rendering the full CSS when run through Flask app
   - Added some more bootstrap
@@ -66,3 +64,8 @@ Made first draft of design doc
   - Added CSS and fixed html issues for stats, top tracks, and top artist pages
   - Attempted adding a home button to redirect back to the choose page
   - Bootstrap my beloved
+===============================
+2022-12-19
+- Julia:
+  - Finished organizing database for top artists and top tracks.
+  - Made some minor changes to make site navigation easier.
