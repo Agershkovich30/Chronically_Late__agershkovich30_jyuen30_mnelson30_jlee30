@@ -81,7 +81,7 @@
     Top Artists Ranked
   </h2>
   <br>
-  <form action='/topartists?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset + newlimit}}' method="POST">
+  <form action='/topartists?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset + newlimit}}&range={{time_range}}' method="POST">
     {% if data -%}
       <table>
         <tr>
@@ -104,7 +104,9 @@
       <input type="text" name="offset">
       Entries Per Page (max 100):
       <input type="text" name="limit">
-      <input type="submit" name="see more" value="go!" class="login-button">
+      <input type="submit" name="see more" value="long_term" class="login-button">
+      <input type="submit" name="see more" value="medium_term" class="login-button">
+      <input type="submit" name="see more" value="short_term" class="login-button">
     {% endif %}
   </form>
 </div>
