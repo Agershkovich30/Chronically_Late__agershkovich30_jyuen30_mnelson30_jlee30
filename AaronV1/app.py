@@ -100,12 +100,13 @@ def getTracks():
         data = req.json().get('items')
         print(req)
         # For every item in that list of tracks
+        trackId = data[0].get("id")
         for item in data:
             # Add the track's name to our list
             temp = [item.get('name'),item.get('id')]
             toptracks.append(temp)
         # Give us the list of our top 50 tracks
-        return render_template("toptracks.html", data=toptracks, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN)
+        return render_template("toptracks.html", data=toptracks, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN, trackId = trackId)
     else:
         return render_template("toptracks.html", oldtoken=ACCESS_TOKEN, newlimit=0, newoffset=0)
 
@@ -124,19 +125,19 @@ def displayTrack(trackid):
         urls = allData.get('external_urls')
         trackdata.append(urls.get('href'))
         return f'This is the {trackid} and this is the link: {trackdata[0]}'
-        oauth_object = spotipy.SpotifyOAuth(clientID,clientSecret,redirectURI)
-        spotifyObject = spotipy.Spotify(auth=access_token)
-        user = spotifyObject.current_user()
-        print(json.dumps(user,sort_keys=True, indent=4))
-        # Search for the Song.
-        searchResults = spotifyObject.search(searchQuery,1,0, allData[0].get('track'))
-        # Get required data from JSON response.
-        tracks_dict = searchResults['tracks']
-        tracks_items = tracks_dict['items']
-        song = tracks_items[0]['external_urls']['spotify']
-        # Open the Song in Web Browser
-        webbrowser.open(song)
-        print('Song has opened in your browser.')
+        # oauth_object = spotipy.SpotifyOAuth(clientID,clientSecret,redirectURI)
+        # spotifyObject = spotipy.Spotify(auth=access_token)
+        # user = spotifyObject.current_user()
+        # print(json.dumps(user,sort_keys=True, indent=4))
+        # # Search for the Song.
+        # searchResults = spotifyObject.search(searchQuery,1,0, allData[0].get('track'))
+        # # Get required data from JSON response.
+        # tracks_dict = searchResults['tracks']
+        # tracks_items = tracks_dict['items']
+        # song = tracks_items[0]['external_urls']['spotify']
+        # # Open the Song in Web Browser
+        # webbrowser.open(song)
+        # print('Song has opened in your browser.')
     else:
         return "this doesn't work :("
 
