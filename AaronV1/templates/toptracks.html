@@ -71,7 +71,7 @@
   <h1>
     Top Tracks
   </h1>
-<iframe src=f'https://open.spotify.com/embed/track/2N9LEu6Pf8nDcp3GjWJT1Z?utm_source=generator' style="width:300px; height:80px;" frameborder="0" allowTransparency="true"></iframe>></iframe>
+<iframe src="https://open.spotify.com/embed/track/{{trackId}}?utm_source=generator" style="width:300px; height:80px;" frameborder="0" allowTransparency="true"></iframe></iframe>
   {{LYRICS_BODY}}
   <br>
   <form action='/toptracks?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset + newlimit}}' method="POST">
