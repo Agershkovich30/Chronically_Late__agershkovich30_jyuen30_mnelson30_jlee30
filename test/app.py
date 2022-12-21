@@ -1,7 +1,7 @@
 from flask import Flask, request, url_for, session, redirect, render_template
 import requests
 import base64
-from credentials import CLIENT_ID, CLIENT_SECRET, SECRET_KEY
+from credentials import CLIENT_ID, CLIENT_SECRET, SECRET_KEY, LYRICS_KEY
 import os
 import Database.topTracks as topTracks_table
 import Database.topArtists as topArtists_table
@@ -114,6 +114,11 @@ def getTracks():
         while i < limit+offset:
             data[str(i)] = topTracks_table.get(cursor=connection.cursor(), rank=i, session_key=ACCESS_TOKEN, term_length=time_range)
             i += 1
+        musixmatch_key = LYRICS_KEY
+        lyrics_string = ""
+        top_song_artist = data.get(0)[0]
+        top_song_name = data.get(0)[4]
+        search_lyrics_url = f"http://api.musixmatch.com/ws/1.1/track.search?q_artist={top_song_artist}&q_track={top_song_name}&pagesize=1"
         return render_template("toptracks.html", data=data, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN, time_range=time_range)
     else:
         return render_template("toptracks.html", oldtoken=ACCESS_TOKEN, newlimit=0, newoffset=0)
