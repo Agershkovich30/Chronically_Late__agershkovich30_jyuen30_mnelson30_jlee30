@@ -122,7 +122,13 @@ def getTracks():
         search_lyrics_url = f"http://api.musixmatch.com/ws/1.1/track.search?apikey={LYRICS_KEY}&q_artist={top_song_artist}&q_track={top_song_name}"
         req = requests.get(search_lyrics_url, headers=headers)
         musixmatch_data = req.json()
-        lyrics_string = musixmatch_data.get("message").get("body").get("track_list")
+        song_id = musixmatch_data.get("message").get("body").get("track_list")[0].get("track").get("track_id")
+        get_lyrics_url = f"http://api.musixmatch.com/ws/1.1/track.get?apikey={LYRICS_KEY}&track_id={song_id}"
+        req = requests.get(get_lyrics_url, headers=headers)
+        lyrics_data = req.json()
+        LYRICS_BODY = lyrics_data.get("message").get("body")
+
+        # MUSIXMATCH DONE
 
         return render_template("toptracks.html", data=data, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN, time_range=time_range, LYRICS_BODY=lyrics_string)
     else:
