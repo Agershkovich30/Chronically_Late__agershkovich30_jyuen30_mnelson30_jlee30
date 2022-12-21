@@ -152,6 +152,12 @@ def displayTrack(trackid):
     else:
         return "this doesn't work :("
 
+@app.route('/<key>', methods=['GET','POST'])
+def displayLyrics(key):
+    ACCESS_TOKEN = request.args.get('token')
+    return render_template("lyrics.html", oldtoken=ACCESS_TOKEN)
+    
+
 @app.route('/topartists', methods=['GET','POST'])
 def getArtists():
     ACCESS_TOKEN = request.args.get('token')
