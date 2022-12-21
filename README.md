@@ -10,7 +10,7 @@ Our most certainly professional Spotify Bootstrapped will present you with a var
 ## APIs and Cards:
 - https://github.com/stuy-softdev/notes-and-code/blob/main/api_kb/411_on_Spotify.md
 - https://github.com/stuy-softdev/notes-and-code/blob/main/api_kb/411_on_genius.md
-- https://github.com/stuy-softdev/notes-and-code/blob/main/api_kb/411_on_MyMemoryTranslated.md
+- https://github.com/stuy-softdev/notes-and-code/blob/main/api_kb/411_on_musiXmatch.md
 
 ## Launch Code [for current test version]:
 - in terminal: ~```pip install requests```
