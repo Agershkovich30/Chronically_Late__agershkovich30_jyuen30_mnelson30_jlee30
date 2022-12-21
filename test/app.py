@@ -116,14 +116,13 @@ def getTracks():
             i += 1
 
         # MUSIXMATCH STUFF
-        musixmatch_key = LYRICS_KEY
         lyrics_string = ""
         top_song_name = data.get("0")[0].replace(" ", "%20")
         top_song_artist = data.get("0")[4].replace(" ", "%20")
-        search_lyrics_url = f"http://api.musixmatch.com/ws/1.1/track.search?q_artist=Alec%20Benjamin&q_track=Paper%20Crown&pagesize=1"
+        search_lyrics_url = f"http://api.musixmatch.com/ws/1.1/track.search?apikey={LYRICS_KEY}&q_artist={top_song_artist}&q_track={top_song_name}"
         req = requests.get(search_lyrics_url, headers=headers)
         musixmatch_data = req.json()
-        lyrics_string = musixmatch_data.get("message").get("body")
+        lyrics_string = musixmatch_data.get("message").get("body").get("track_list")
 
         return render_template("toptracks.html", data=data, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN, time_range=time_range, LYRICS_BODY=lyrics_string)
     else:
