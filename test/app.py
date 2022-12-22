@@ -84,7 +84,7 @@ def getTracks():
         if int(request.args.get('offset')) + int(request.args.get('limit')) > 100:
             return render_template("stats.html", oldtoken=ACCESS_TOKEN)
         # If the user requested to see more information, gives the next set of top tracks.
-        if request.form["see more"] == "add":
+        if request.form["see more"] == "add" or request.form["see more"] == "back":
             limit = int(request.args.get('limit')) 
             offset = int(request.args.get('offset')) # Moves offset over by however much the limit is.
             time_range = request.args.get('range')
@@ -137,20 +137,24 @@ def getTracks():
 @app.route('/toptracks/<trackid>', methods=['GET','POST'])
 def displayTrack(trackid):
     ACCESS_TOKEN = request.args.get('token')
-    if request.method == "POST":
-        headers = {
-            "Authorization": f"Bearer {ACCESS_TOKEN}"
-        }
-        type = "tracks"
-        lookup_url = f"https://api.spotify.com/v1/{type}/{trackid}"
-        req = requests.get(lookup_url, header=headers)
-        allData = req.json()
-        trackdata = []
-        urls = allData.get('external_urls')
-        trackdata.append(urls.get('href'))
-        return f'This is the {trackid} and this is the link: {trackdata[0]}'
-    else:
-        return "this doesn't work :("
+    limit = int(request.args.get('limit')) 
+    offset = int(request.args.get('offset')) # Moves offset over by however much the limit is.
+    time_range = request.args.get('range')
+    headers = {
+        "Authorization": f"Bearer {ACCESS_TOKEN}"
+    }
+    song = topTracks_table.get(cursor=connection.cursor(), trackID=trackid)
+    song_name = song[0]
+    song_artist = song[4]
+    search_lyrics_url = f"http://api.musixmatch.com/ws/1.1/track.search?apikey={LYRICS_KEY}&q_artist={song_artist}&q_track={song_name}"
+    lyrics_req = requests.get(search_lyrics_url)
+    musixmatch_data = lyrics_req.json()
+    song_id = musixmatch_data.get("message").get("body").get("track_list")[0].get("track").get("track_id")
+    get_lyrics_url = f"http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey={LYRICS_KEY}&track_id={song_id}"
+    req = requests.get(get_lyrics_url, headers=headers)
+    lyrics_data = req.json()
+    lyrics_string = str(lyrics_data.get("message").get("body").get("lyrics").get("lyrics_body"))
+    return render_template("lyrics.html", data = song, lyrics = lyrics_string, oldtoken=ACCESS_TOKEN, newlimit=limit, newoffset=offset, time_range=time_range)
 
 @app.route('/<key>', methods=['GET','POST'])
 def displayLyrics(key):

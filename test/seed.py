@@ -6,7 +6,7 @@ connection.execute('CREATE TABLE IF NOT EXISTS ' +
     '"toptracks" ("name" TEXT,' +
     '"rank" INT, ' +
     '"id" INT, ' +
-    '"albumID" TEXT, ' +
+    '"trackID" TEXT, ' +
     '"artists" TEXT, ' +
     '"trackNUM" INT, ' +
     '"duration" INT, ' +

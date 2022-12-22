@@ -78,7 +78,6 @@
   {% endautoescape %}
   <br>
   <br>
-  <form action='/toptracks?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset + newlimit}}&range={{time_range}}' method="POST">
     {% if data -%}
       <table>
         <tr>
@@ -90,14 +89,17 @@
         {% for key in data.keys() %}
         <tr>
           <td>{{ key | int }}</td>
-          <td> <a href={{key}}> {{data.get(key)[0]}} </a></td>
+          <td><a href="/toptracks/{{data.get(key)[3]}}?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset}}&range={{time_range}}">{{data.get(key)[0]}}</a> </td>
           <td>{{data.get(key)[4]}}</td>
           <td>{{data.get(key)[2]}}</td>
         </tr>
         {% endfor %}
       </table>
+    <form action='/toptracks?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset + newlimit}}&range={{time_range}}' method="POST">
       <input type="submit" value="add" name="see more">
+    </form>
     {% else -%}
+    <form action='/toptracks?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset + newlimit}}&range={{time_range}}' method="POST">
       Start from:
       <input type="text" name="offset">
       Entries Per Page (max 100):
@@ -105,8 +107,8 @@
       <input type="submit" name="see more" value="long_term" class="login-button">
       <input type="submit" name="see more" value="medium_term" class="login-button">
       <input type="submit" name="see more" value="short_term" class="login-button">
+    </form>
     {% endif %}
-  </form>
 </div>
 </body>
 </html>

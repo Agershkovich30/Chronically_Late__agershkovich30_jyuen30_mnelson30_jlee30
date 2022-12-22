@@ -69,10 +69,16 @@
 </head>
 <body class="body">
   <div class="text-center body-center">
+  <iframe src="https://open.spotify.com/embed/track/{{data[3]}}?utm_source=generator" style="width:300px; height:80px;" frameborder="0" allowTransparency="true"></iframe></iframe>
     <h1>
-        hi *Insert song title here*
+        {{data[0]}} by {{data[4]}}
       </h1>
       <br>
-      *insert lyrics here*
+      {% autoescape false %}
+        {{ lyrics | replace("\n", "<br/>") }}
+      {% endautoescape %}
+  <form action="/toptracks?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset}}&range={{time_range}}" method="POST">
+    <input type="submit" name="see more" value="back">
+  </form>
 </body>
 </html>
