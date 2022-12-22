@@ -114,7 +114,7 @@ def getTracks():
         while i < limit+offset:
             data[str(i)] = topTracks_table.get(cursor=connection.cursor(), rank=i, session_key=ACCESS_TOKEN, term_length=time_range) 
             i += 1
-        song = topTracks_table.get(cursor=connection.cursor(), rank=offset)
+        song = topTracks_table.get(cursor=connection.cursor(), rank=offset, term_length=time_range)
         song_name = song[0]
         song_artist = song[4]
         search_lyrics_url = f"http://api.musixmatch.com/ws/1.1/track.search?apikey={LYRICS_KEY}&q_artist={song_artist}&q_track={song_name}"
@@ -138,7 +138,7 @@ def displayTrack(trackid):
     headers = {
         "Authorization": f"Bearer {ACCESS_TOKEN}"
     }
-    song = topTracks_table.get(cursor=connection.cursor(), trackID=trackid)
+    song = topTracks_table.get(cursor=connection.cursor(), trackID=trackid, term_length=time_range)
     song_name = song[0]
     song_artist = song[4]
     search_lyrics_url = f"http://api.musixmatch.com/ws/1.1/track.search?apikey={LYRICS_KEY}&q_artist={song_artist}&q_track={song_name}"
