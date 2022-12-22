@@ -1,7 +1,7 @@
 from flask import Flask, request, url_for, session, redirect, render_template
 import requests
 import base64
-from keys.credentials import CLIENT_ID, CLIENT_SECRET, SECRET_KEY, LYRICS_KEY
+from keys.credentials import CLIENT_ID, CLIENT_SECRET, SECRET_KEY, LYRICS_KEY, CELEB_KEY
 import os
 import Database.topTracks as topTracks_table
 import Database.topArtists as topArtists_table
@@ -114,7 +114,7 @@ def getTracks():
         while i < limit+offset:
             data[str(i)] = topTracks_table.get(cursor=connection.cursor(), rank=i, session_key=ACCESS_TOKEN, term_length=time_range) 
             i += 1
-        song = topTracks_table.get(cursor=connection.cursor(), rank=offset, term_length=time_range)
+        song = topTracks_table.get(cursor=connection.cursor(), rank=offset, term_length=time_range, session_key=ACCESS_TOKEN)
         song_name = song[0]
         song_artist = song[4]
         search_lyrics_url = f"http://api.musixmatch.com/ws/1.1/track.search?apikey={LYRICS_KEY}&q_artist={song_artist}&q_track={song_name}"
@@ -138,7 +138,7 @@ def displayTrack(trackid):
     headers = {
         "Authorization": f"Bearer {ACCESS_TOKEN}"
     }
-    song = topTracks_table.get(cursor=connection.cursor(), trackID=trackid, term_length=time_range)
+    song = topTracks_table.get(cursor=connection.cursor(), trackID=trackid, term_length=time_range, session_key=ACCESS_TOKEN)
     song_name = song[0]
     song_artist = song[4]
     search_lyrics_url = f"http://api.musixmatch.com/ws/1.1/track.search?apikey={LYRICS_KEY}&q_artist={song_artist}&q_track={song_name}"
@@ -174,12 +174,15 @@ def getArtists():
         headers = {
             "Authorization": f"Bearer {ACCESS_TOKEN}"
         }
+
         if int(request.args.get('offset')) + int(request.args.get('limit')) > 100:
             return render_template("stats.html", oldtoken=ACCESS_TOKEN)
+
         if request.form["see more"] == "add":
             limit = int(request.args.get('limit'))
             offset = int(request.args.get('offset'))
             time_range = request.args.get('range')
+
         # Determines parameters of information to be obtained
         else:
             limit = int(request.form['limit'])
@@ -201,20 +204,27 @@ def getArtists():
             items = allData.get("items") # List with each of the artists
             if len(items) > 0:
                 topArtists_table.create(cursor=connection.cursor(), list=items, start=49, key=ACCESS_TOKEN, term_length=time_range)
+
+            headers = {
+            "X-Api-Key": f"{CELEB_KEY}"
+            }
+            celebrity = topArtists_table.get(cursor=connection.cursor(), session_key=ACCESS_TOKEN, rank=0, term_length=time_range)
+            celebrity_url = f"https://api.api-ninjas.com/v1/celebrity?name={celebrity[0]}"
+            celeb_req = requests.get(celebrity_url, headers=headers)
+            celeb_data = celeb_req.json()
+            if len(celeb_data) > 0:
+                net_worth = celeb_data[0].get('net_worth')
+                nationality = celeb_data[0].get('nationality')
+                birthday = celeb_data[0].get('birthday')
+                topArtists_table.update(cursor=connection.cursor(), id=celebrity[2], net_worth=net_worth, nationality=nationality, birthday=birthday)
+
         data = {}
         i = offset
         # Creates a dictionary with each of the artists and their information using the database. Each dict value is a tuple.
         while i < limit+offset:
             data[str(i)] = topArtists_table.get(cursor=connection.cursor(), rank=i, session_key=ACCESS_TOKEN, term_length=time_range)
             i += 1
-        return render_template("topartists.html", data=data, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN, time_range=time_range)
-        # name = topartists[0].get('name')
-        # api_url = 'https://api.api-ninjas.com/v1/celebrity?name={}'.format(name)
-        # response = requests.get(api_url, headers={'X-Api-Key': '+M6tFBonGGlY40Dep3Fz5A==F0lCCUzJh88dYOtQ'})
-        # AllData = response.json()
-        # NetWorthData = AllData[0].get('net_worth')
-        # Nationality = AllData[0].get('nationality')
-        # Birthday = AllData[0].get('birthday')
+        return render_template("topartists.html", oldtoken=ACCESS_TOKEN, newlimit=limit, newoffset=offset, time_range=time_range, data=data)
     else:
         return render_template("topartists.html", oldtoken=ACCESS_TOKEN, newlimit=0, newoffset=0)
 

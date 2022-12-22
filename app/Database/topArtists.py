@@ -33,3 +33,13 @@ def get(cursor, **kwargs):
     cursor.execute(query)
     blog = cursor.fetchone()
     return blog
+
+def update(cursor, id, **kwargs):
+    query = "UPDATE topartists SET "
+    for key, value in kwargs.items():
+        query += f"{key} = '{value}', "
+    query = query[:-2]
+    query += f" WHERE id = '{id}'"
+    cursor.execute(query)
+    cursor.connection.commit()
+    return None

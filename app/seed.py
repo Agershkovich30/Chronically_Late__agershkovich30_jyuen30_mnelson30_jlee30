@@ -22,5 +22,8 @@ connection.execute('CREATE TABLE IF NOT EXISTS ' +
     'id TEXT, ' +
     'popularity INT, ' +
     'session_key TEXT, ' +
-    'term_length TEXT)'
+    'term_length TEXT, '+
+    'net_worth INT, ' +
+    'nationality TEXT, ' +
+    'birthday TEXT)'
 )

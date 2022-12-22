@@ -69,46 +69,47 @@
 </head>
 <body class="body">
   <div class="text-center body-center">
-    <h1> Your Top Artist:  {{topArtist}}</h1>
+    <form action='/topartists?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset + newlimit}}&range={{time_range}}' method="POST">
+    {% if data -%}
+    <h1> Your Top Artist:  {{data.get("0")[0]}}</h1>
     <body> Here's some information about your favorite artist
     </br>
-    Birthday: {{birthday}} </br>
-    Nationality: {{nationality}}</br>
-    Net Worth: {{netWorth}}
+    Birthday: {{data.get("0")[6]}} </br>
+    Nationality: {{data.get("0")[7]}}</br>
+    Net Worth: {{data.get("0")[8]}}
     </br></br></br></br></br>
     </body>
+  <br>
   <h2 class="text-center body-center">
     Top Artists Ranked
   </h2>
-  <br>
-  <form action='/topartists?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset + newlimit}}&range={{time_range}}' method="POST">
-    {% if data -%}
-      <table>
-        <tr>
-          <th> Place </th>
-          <th> Artist </th>
-          <th> ID </th>
-        </tr>
-        {% for key in data.keys() %}
-        <tr>
-          <td>{{ key | int}}</td>
-          <td>{{data.get(key)[0]}}</td>
-          <td>{{data.get(key)[2]}}</td>
-        </tr>
-        {% endfor %}
-      </table>
-      <p>Limit: {{newlimit}}, Offset: {{newoffset}}</p>
-      <input type="submit" value="add" name="see more">
-    {% else -%}
-      Start from:
-      <input type="text" name="offset">
-      Entries Per Page (max 100):
-      <input type="text" name="limit">
-      <input type="submit" name="see more" value="long_term" class="login-button">
-      <input type="submit" name="see more" value="medium_term" class="login-button">
-      <input type="submit" name="see more" value="short_term" class="login-button">
-    {% endif %}
-  </form>
+    <table>
+      <tr>
+        <th> Place </th>
+        <th> Artist </th>
+        <th> ID </th>
+      </tr>
+      {% for key in data.keys() %}
+      <tr>
+        <td>{{ key | int}}</td>
+        <td>{{data.get(key)[0]}}</td>
+        <td>{{data.get(key)[2]}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <p>Limit: {{newlimit}}, Offset: {{newoffset}}</p>
+    <input type="submit" value="add" name="see more">
+  {% else -%}
+    <h2>How much do you want to know?</h2>
+    Start from:
+    <input type="text" name="offset">
+    Entries Per Page (max 100):
+    <input type="text" name="limit">
+    <input type="submit" name="see more" value="long_term" class="login-button">
+    <input type="submit" name="see more" value="medium_term" class="login-button">
+    <input type="submit" name="see more" value="short_term" class="login-button">
+  {% endif %}
+</form>
 </div>
 <div class="text-right body-right">
 
