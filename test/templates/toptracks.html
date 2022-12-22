@@ -75,7 +75,6 @@
   <br>
   {{LYRICS_BODY}}
   <br>
-  <form action='/toptracks?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset + newlimit}}&range={{time_range}}' method="POST">
     {% if data -%}
       <table>
         <tr>
@@ -93,8 +92,11 @@
         </tr>
         {% endfor %}
       </table>
+    <form action='/toptracks?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset + newlimit}}&range={{time_range}}' method="POST">
       <input type="submit" value="add" name="see more">
+    </form>
     {% else -%}
+    <form action='/toptracks?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset + newlimit}}&range={{time_range}}' method="POST">
       Start from:
       <input type="text" name="offset">
       Entries Per Page (max 100):
@@ -102,8 +104,8 @@
       <input type="submit" name="see more" value="long_term" class="login-button">
       <input type="submit" name="see more" value="medium_term" class="login-button">
       <input type="submit" name="see more" value="short_term" class="login-button">
+    </form>
     {% endif %}
-  </form>
 </div>
 </body>
 </html>

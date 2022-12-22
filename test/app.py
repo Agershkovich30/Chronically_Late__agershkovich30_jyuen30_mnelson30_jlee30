@@ -1,7 +1,7 @@
 from flask import Flask, request, url_for, session, redirect, render_template
 import requests
 import base64
-from credentials import CLIENT_ID, CLIENT_SECRET, SECRET_KEY
+from credentials import CLIENT_ID, CLIENT_SECRET, SECRET_KEY, LYRICS_KEY, CELEBKEY
 import os
 import Database.topTracks as topTracks_table
 import Database.topArtists as topArtists_table
@@ -118,8 +118,8 @@ def getTracks():
     else:
         return render_template("toptracks.html", oldtoken=ACCESS_TOKEN, newlimit=0, newoffset=0)
 
-@app.route('/toptracks/<trackid>', methods=['GET','POST'])
-def displayTrack(trackid):
+@app.route('/toptracks/<trackid>/<token>', methods=['GET','POST'])
+def displayTrack(trackid, token):
     ACCESS_TOKEN = request.args.get('token')
     if request.method == "POST":
         headers = {
@@ -129,12 +129,9 @@ def displayTrack(trackid):
         lookup_url = f"https://api.spotify.com/v1/{type}/{trackid}"
         req = requests.get(lookup_url, header=headers)
         allData = req.json()
-        trackdata = []
-        urls = allData.get('external_urls')
-        trackdata.append(urls.get('href'))
-        return f'This is the {trackid} and this is the link: {trackdata[0]}'
+        return allData
     else:
-        return "this doesn't work :("
+        return render_template("stats.html", oldtoken=ACCESS_TOKEN)
 
 @app.route('/topartists', methods=['GET','POST'])
 def getArtists():
