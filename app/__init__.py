@@ -109,9 +109,15 @@ def getTracks():
             if len(items) > 0:
                 topTracks_table.create(cursor=connection.cursor(), list=items, start=49, key=ACCESS_TOKEN, term_length=time_range)
         data = {}
-        i = offset
+        # testing number of rows to be created
+        # s = sqlite3.connect("Spotify.db")
+        # c = s.cursor()
+        # c.execute("SELECT COUNT(*) FROM toptracks")
+        # maxrows = int(c.fetchone())
+        # if maxrows > limit+offset:
+        #     maxrows = limit+offset
         # Creates a dictionary with each of the artists and their information using the database. Each dict value is a tuple.
-        while i < limit+offset:
+        while i < maxrows:
             data[str(i)] = topTracks_table.get(cursor=connection.cursor(), rank=i, session_key=ACCESS_TOKEN, term_length=time_range) 
             i += 1
         song = topTracks_table.get(cursor=connection.cursor(), rank=offset, term_length=time_range, session_key=ACCESS_TOKEN)
