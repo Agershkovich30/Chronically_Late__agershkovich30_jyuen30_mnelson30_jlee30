@@ -47,6 +47,19 @@
     background-color: #F9EF47;
 }
 
+.time-button {
+    padding:10px;
+    font-size: medium;
+    background-color: #87F398;
+    color:#01796F;
+    border: none;
+
+}
+
+.tracks-pick-font {
+    color:white;
+}
+
 .disclaimer {
     color:#FFCCCB;
     font-size:15px
@@ -61,11 +74,15 @@
     background-color: #FF4545;
     font-size: 40px;
     font-family: 'Courier New', monospace;
+    color: white;
 }
 
 .big-text {
     font-size: 70px;
 }
 
+.stats-heading {
+    color: white;
+}
 
 
