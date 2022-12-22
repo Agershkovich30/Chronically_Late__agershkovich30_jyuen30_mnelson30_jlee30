@@ -85,4 +85,12 @@
     color: white;
 }
 
+.trackslist {
+    color:white;
+}
+
+.trackslist-lyrics {
+    color:#FFCCCB;
+    font-family: "Lucida Console", "Courier New", monospace;
+}
 
