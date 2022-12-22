@@ -1,5 +1,6 @@
 .navbar {
     background-color:#FF4545;
+   /* background-image: url("https://as1.ftcdn.net/v2/jpg/02/97/70/52/1000_F_297705296_6dftgLSX22tzyOqF113lrrzDa16YjD7g.jpg"); */ 
 }
 
 .navbar-brand {
@@ -7,8 +8,12 @@
     padding-left: 20px;
 }
 
-.body {
-    background-color:#87F398;
+.body { 
+    background: url("images/snow2.gif"), #87F398;
+}
+
+.home-heading {
+    color: #87F398;
 }
 
 .description {
