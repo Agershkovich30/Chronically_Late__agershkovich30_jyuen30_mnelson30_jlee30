@@ -144,12 +144,13 @@ def displayTrack(trackid):
     search_lyrics_url = f"http://api.musixmatch.com/ws/1.1/track.search?apikey={LYRICS_KEY}&q_artist={song_artist}&q_track={song_name}"
     lyrics_req = requests.get(search_lyrics_url)
     musixmatch_data = lyrics_req.json()
+    has_lyrics = musixmatch_data.get("message").get("body").get("track_list")[0].get("track").get("has_lyrics")
     song_id = musixmatch_data.get("message").get("body").get("track_list")[0].get("track").get("track_id")
     get_lyrics_url = f"http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey={LYRICS_KEY}&track_id={song_id}"
     req = requests.get(get_lyrics_url, headers=headers)
     lyrics_data = req.json()
     # checking whether or not it actually has lyrics
-    if (lyrics_data.get("message").get("body").get("lyrics").get("has_lyrics")==0):
+    if (has_lyrics==0):
         lyrics_string = "This song has no lyrics :( Check back next time!"
     else:
         lyrics_string = str(lyrics_data.get("message").get("body").get("lyrics").get("lyrics_body"))
