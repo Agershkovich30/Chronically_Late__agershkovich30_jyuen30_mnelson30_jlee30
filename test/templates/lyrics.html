@@ -69,46 +69,16 @@
 </head>
 <body class="body">
   <div class="text-center body-center">
-  <h1>
-    Top Tracks
-  </h1>
-  <br>
-  {% autoescape false %}
-    {{ LYRICS_BODY | replace("\n", "<br/>") }}
-  {% endautoescape %}
-  <br>
-  <br>
-    {% if data -%}
-      <table>
-        <tr>
-          <th> Place </th>
-          <th> Song </th>
-          <th> Artists </th>
-          <th> Song ID </th>
-        </tr>
-        {% for key in data.keys() %}
-        <tr>
-          <td>{{ key | int }}</td>
-          <td><a href="/toptracks/{{data.get(key)[3]}}?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset}}&range={{time_range}}">{{data.get(key)[0]}}</a> </td>
-          <td>{{data.get(key)[4]}}</td>
-          <td>{{data.get(key)[2]}}</td>
-        </tr>
-        {% endfor %}
-      </table>
-    <form action='/toptracks?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset + newlimit}}&range={{time_range}}' method="POST">
-      <input type="submit" value="add" name="see more">
-    </form>
-    {% else -%}
-    <form action='/toptracks?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset + newlimit}}&range={{time_range}}' method="POST">
-      Start from:
-      <input type="text" name="offset">
-      Entries Per Page (max 100):
-      <input type="text" name="limit">
-      <input type="submit" name="see more" value="long_term" class="login-button">
-      <input type="submit" name="see more" value="medium_term" class="login-button">
-      <input type="submit" name="see more" value="short_term" class="login-button">
-    </form>
-    {% endif %}
-</div>
+  <iframe src="https://open.spotify.com/embed/track/{{data[3]}}?utm_source=generator" style="width:300px; height:80px;" frameborder="0" allowTransparency="true"></iframe></iframe>
+    <h1>
+        {{data[0]}} by {{data[4]}}
+      </h1>
+      <br>
+      {% autoescape false %}
+        {{ lyrics | replace("\n", "<br/>") }}
+      {% endautoescape %}
+  <form action="/toptracks?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset}}&range={{time_range}}" method="POST">
+    <input type="submit" name="see more" value="back">
+  </form>
 </body>
 </html>

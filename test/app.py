@@ -1,7 +1,7 @@
 from flask import Flask, request, url_for, session, redirect, render_template
 import requests
 import base64
-from credentials import CLIENT_ID, CLIENT_SECRET, SECRET_KEY, LYRICS_KEY, CELEBKEY
+from credentials import CLIENT_ID, CLIENT_SECRET, SECRET_KEY, LYRICS_KEY
 import os
 import Database.topTracks as topTracks_table
 import Database.topArtists as topArtists_table
@@ -72,6 +72,8 @@ def choose():
             return render_template("topartists.html", oldtoken=access_token, newlimit=0, newoffset=0)
     return render_template('stats.html', oldtoken=access_token)
 
+DATA_GLOBAL_LYRICS = {}
+
 @app.route('/toptracks', methods=['GET','POST'])
 def getTracks():
     ACCESS_TOKEN = request.args.get('token')
@@ -84,7 +86,7 @@ def getTracks():
         if int(request.args.get('offset')) + int(request.args.get('limit')) > 100:
             return render_template("stats.html", oldtoken=ACCESS_TOKEN)
         # If the user requested to see more information, gives the next set of top tracks.
-        if request.form["see more"] == "add":
+        if request.form["see more"] == "add" or request.form["see more"] == "back":
             limit = int(request.args.get('limit')) 
             offset = int(request.args.get('offset')) # Moves offset over by however much the limit is.
             time_range = request.args.get('range')
@@ -112,26 +114,59 @@ def getTracks():
         i = offset
         # Creates a dictionary with each of the artists and their information using the database. Each dict value is a tuple.
         while i < limit+offset:
-            data[str(i)] = topTracks_table.get(cursor=connection.cursor(), rank=i, session_key=ACCESS_TOKEN, term_length=time_range)
+            data[str(i)] = topTracks_table.get(cursor=connection.cursor(), rank=i, session_key=ACCESS_TOKEN, term_length=time_range) 
             i += 1
-        return render_template("toptracks.html", data=data, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN, time_range=time_range)
+        global DATA_GLOBAL_LYRICS
+        for key in data:
+            # Getting musiXmatch song ID for lyrics
+            top_song_name = data.get(key)[0].replace(" ", "%20")
+            top_song_artist = data.get(key)[4].replace(" ", "%20")
+            search_lyrics_url = f"http://api.musixmatch.com/ws/1.1/track.search?apikey={LYRICS_KEY}&q_artist={top_song_artist}&q_track={top_song_name}"
+            req = requests.get(search_lyrics_url, headers=headers)
+            musixmatch_data = req.json()
+            song_id = musixmatch_data.get("message").get("body").get("track_list")[0].get("track").get("track_id")
+            # Next one
+            DATA_GLOBAL_LYRICS[str(i)] = song_id
+        return render_template("toptracks.html", data=data, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN, time_range=time_range, LYRICS_BODY=DATA_GLOBAL_LYRICS)
     else:
         return render_template("toptracks.html", oldtoken=ACCESS_TOKEN, newlimit=0, newoffset=0)
 
 @app.route('/toptracks/<trackid>/<token>', methods=['GET','POST'])
 def displayTrack(trackid, token):
     ACCESS_TOKEN = request.args.get('token')
-    if request.method == "POST":
-        headers = {
-            "Authorization": f"Bearer {ACCESS_TOKEN}"
-        }
-        type = "tracks"
-        lookup_url = f"https://api.spotify.com/v1/{type}/{trackid}"
-        req = requests.get(lookup_url, header=headers)
-        allData = req.json()
-        return allData
-    else:
-        return render_template("stats.html", oldtoken=ACCESS_TOKEN)
+    limit = int(request.args.get('limit')) 
+    offset = int(request.args.get('offset')) # Moves offset over by however much the limit is.
+    time_range = request.args.get('range')
+    headers = {
+        "Authorization": f"Bearer {ACCESS_TOKEN}"
+    }
+    song = topTracks_table.get(cursor=connection.cursor(), trackID=trackid)
+    song_name = song[0]
+    song_artist = song[4]
+    search_lyrics_url = f"http://api.musixmatch.com/ws/1.1/track.search?apikey={LYRICS_KEY}&q_artist={song_artist}&q_track={song_name}"
+    lyrics_req = requests.get(search_lyrics_url)
+    musixmatch_data = lyrics_req.json()
+    song_id = musixmatch_data.get("message").get("body").get("track_list")[0].get("track").get("track_id")
+    get_lyrics_url = f"http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey={LYRICS_KEY}&track_id={song_id}"
+    req = requests.get(get_lyrics_url, headers=headers)
+    lyrics_data = req.json()
+    lyrics_string = str(lyrics_data.get("message").get("body").get("lyrics").get("lyrics_body"))
+    return render_template("lyrics.html", data = song, lyrics = lyrics_string, oldtoken=ACCESS_TOKEN, newlimit=limit, newoffset=offset, time_range=time_range)
+
+@app.route('/<key>', methods=['GET','POST'])
+def displayLyrics(key):
+    ACCESS_TOKEN = request.args.get('token')
+    headers = {
+        "Authorization": f"Bearer {ACCESS_TOKEN}"
+    }
+    global DATA_GLOBAL_LYRICS
+    trackid = DATA_GLOBAL_LYRICS.get(key)
+    get_lyrics_url = f"http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey={LYRICS_KEY}&track_id={trackid}"
+    req = requests.get(get_lyrics_url, headers=headers)
+    lyrics_data = req.json()
+    LYRICS = lyrics_data.get("message").get("body").get("lyrics").get("lyrics_body")
+    return render_template("lyrics.html", oldtoken=ACCESS_TOKEN, SONG_TITLE = trackid, SONG_LYRICS=LYRICS)
+    
 
 @app.route('/topartists', methods=['GET','POST'])
 def getArtists():
