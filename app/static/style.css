@@ -1,12 +1,25 @@
 .navbar {
-    background-color:#FF4545;
-   /* background-image: url("https://as1.ftcdn.net/v2/jpg/02/97/70/52/1000_F_297705296_6dftgLSX22tzyOqF113lrrzDa16YjD7g.jpg"); */ 
+    /* background-color:#FF4545; */
+    /* background-image: url("https://as1.ftcdn.net/v2/jpg/02/97/70/52/1000_F_297705296_6dftgLSX22tzyOqF113lrrzDa16YjD7g.jpg"); */ 
+    background-image: url("images/redcandycane.jpeg");
 }
 
 .navbar-brand {
-    color:white;
+    color:#01796F;
+    font-size: 25px;
     padding-left: 20px;
+    text-shadow:
+        0.07em 0 white,
+        0 0.07em white,
+        -0.07em 0 white,
+        0 -0.07em white;
 }
+
+.navbar-brand-image {
+    margin-left:10px;
+    height:5%;
+    width:5%;
+} 
 
 .body { 
     background: url("images/snow2.gif"), #87F398;
