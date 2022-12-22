@@ -12,7 +12,18 @@ Our most certainly professional Spotify Bootstrapped will present you with a var
 - https://github.com/stuy-softdev/notes-and-code/blob/main/api_kb/411_on_genius.md
 - https://github.com/stuy-softdev/notes-and-code/blob/main/api_kb/411_on_musiXmatch.md
 
-## Launch Code [for current test version]:
+## Launch Code:
+### Before Running Anything:
+- Option 1 (May take more time than Option 2):
+  - Contact Devos and ask to have your Spotify email added to our app.
+- Option 2:
+  - Go to https://developer.spotify.com/dashboard/login and create your own Spotify app.
+  - Go to edit settings in your app.
+  - Add the following links to your Redirect URIs:
+    - http://localhost:5000/redirect
+    - http://localhost:5000
+  - Update credentials.py's CLIENT_SECRET and CLIENT_KEY to match your app's credentials.
+### After Setting Up the Spotify App:
 - in terminal: ~```pip install requests```
 - run seed.py to create database file
   ```python3 seed.py```
