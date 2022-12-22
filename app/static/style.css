@@ -1,9 +1,13 @@
+/* We decided to use Bootstrap in conjunction with our own 
+stylesheet so we could customize our site to our liking */
+
+/* NAVBAR ================================================ */
+
 .navbar {
     /* background-color:#FF4545; */
     /* background-image: url("https://as1.ftcdn.net/v2/jpg/02/97/70/52/1000_F_297705296_6dftgLSX22tzyOqF113lrrzDa16YjD7g.jpg"); */ 
     background-image: url("images/redcandycane.jpeg");
 }
-
 .navbar-brand {
     color:#01796F;
     font-size: 25px;
@@ -14,38 +18,47 @@
         -0.07em 0 white,
         0 -0.07em white;
 }
-
 .navbar-brand-image {
     margin-left:10px;
     height:5%;
     width:5%;
 } 
 
+/* BODY ==================================================== */
+
 .body { 
     background: url("images/snow2.gif"), #87F398;
 }
-
-.home-heading {
-    color: #87F398;
-}
-
-.description {
-    background-image: url("http://schools.stlucie.k12.fl.us/swc/files/2014/12/blue-christmas-snow-fall-animation.gif");
-    opacity:0.7;
-    color:white;
-    padding:30px;
-    font-size: 20px;
-}
-
 .body-center {
     margin-right: 20vw;
     margin-left: 20vw;
 }
 
+/* LANDING PAGE ============================================ */
+
+.home-heading {
+    color: #87F398;
+}
+.description {
+    background-image: url("images/blue-snowfall.gif");
+    opacity:0.7;
+    color:white;
+    padding:30px;
+    font-size: 20px;
+}
 .login-button {
     margin-right: 30px;
     background-color: #F9EF47;
 }
+.team-name {
+    color:#FF4545;
+}
+.disclaimer {
+    color:#FFCCCB;
+    font-size:15px
+}
+
+/* TOP TRACKS PAGE ========================================= */
 
 .time-button {
     padding:10px;
@@ -53,21 +66,28 @@
     background-color: #87F398;
     color:#01796F;
     border: none;
-
 }
-
 .tracks-pick-font {
     color:white;
 }
-
-.disclaimer {
+.trackslist {
+    color:white;
+}
+.trackslist-lyrics {
     color:#FFCCCB;
-    font-size:15px
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+.track-form-note {
+    color:#FFCCCB;
+    font-size: small;
+    font-family: 'Courier New', Courier, monospace;
+    letter-spacing: 2px;
+}
+.track-form-note-h {
+    color:#FFCCCB;
 }
 
-.team-name {
-    color:#FF4545;
-}
+/* CHOOSE TOP TRACKS/ARTISTS PAGE ========================== */
 
 .big-button {
     margin-right: 30px;
@@ -76,21 +96,17 @@
     font-family: 'Courier New', monospace;
     color: white;
 }
+.stats-heading {
+    color: white;
+}
+
+
 
 .big-text {
     font-size: 70px;
 }
 
-.stats-heading {
-    color: white;
-}
 
-.trackslist {
-    color:white;
-}
 
-.trackslist-lyrics {
-    color:#FFCCCB;
-    font-family: "Lucida Console", "Courier New", monospace;
-}
+
 

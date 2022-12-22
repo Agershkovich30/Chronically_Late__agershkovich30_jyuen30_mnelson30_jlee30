@@ -106,10 +106,26 @@
     {% else -%}
     <form action='/toptracks?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset + newlimit}}&range={{time_range}}' method="POST" class="tracks-pick-font">
       <div>
-        Start from:
-        <input type="text" name="offset">
-        Entries Per Page (max 100):
-        <input type="text" name="limit">
+        <div class="text-center">
+          <h6 class="track-form-note-h">Note:</h6>
+          <p class="track-form-note">
+            Song indeces are denoted by integers, with the first one starting
+            at 0, and the max being 100. 
+          </p>
+          <p class="track-form-note">
+            Example: if the first index is 5 and the last is 40, your sixth top
+            track up to your fourty-first will be listed.
+          </p>
+        </div>
+        <div>
+          <h5 class="form-label">First Song Index:</h5>
+          <input type="text" name="offset" class="form-control">
+        </div>
+        <br>
+        <div>
+          <h5 class="form-label">Last Song Index (MAX 100)</h5>
+          <input type="text" name="limit" class="form-control">
+        </div>
       </div>
       <br>
       <div>
