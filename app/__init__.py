@@ -117,7 +117,9 @@ def getTracks():
         # if maxrows > limit+offset:
         #     maxrows = limit+offset
         # Creates a dictionary with each of the artists and their information using the database. Each dict value is a tuple.
-        while i < maxrows:
+        # while i < maxrows:
+        i = offset
+        while i < limit+offset:
             data[str(i)] = topTracks_table.get(cursor=connection.cursor(), rank=i, session_key=ACCESS_TOKEN, term_length=time_range) 
             i += 1
         song = topTracks_table.get(cursor=connection.cursor(), rank=offset, term_length=time_range, session_key=ACCESS_TOKEN)
