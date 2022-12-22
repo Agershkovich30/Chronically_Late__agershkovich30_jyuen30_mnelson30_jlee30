@@ -124,14 +124,36 @@ def getTracks():
         get_lyrics_url = f"http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey={LYRICS_KEY}&track_id={song_id}"
         req = requests.get(get_lyrics_url, headers=headers)
         lyrics_data = req.json()
-        # checking if it has lyrics at all
-        if (lyrics_data.get("message").get("body").get("lyrics").get("has_lyrics")==0):
-            lyrics_string = "This song has no lyrics :( Check back next time!"
-        else:
-            lyrics_string = str(lyrics_data.get("message").get("body").get("lyrics").get("lyrics_body"))
+        lyrics_string = str(lyrics_data.get("message").get("body").get("lyrics").get("lyrics_body"))
         return render_template("toptracks.html", data=data, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN, time_range=time_range, LYRICS_BODY=lyrics_string)
     else:
         return render_template("toptracks.html", oldtoken=ACCESS_TOKEN, newlimit=0, newoffset=0)
+
+@app.route('/toptracks/<trackid>', methods=['GET','POST'])
+def displayTrack(trackid):
+    ACCESS_TOKEN = request.args.get('token')
+    limit = int(request.args.get('limit')) 
+    offset = int(request.args.get('offset')) # Moves offset over by however much the limit is.
+    time_range = request.args.get('range')
+    headers = {
+        "Authorization": f"Bearer {ACCESS_TOKEN}"
+    }
+    song = topTracks_table.get(cursor=connection.cursor(), trackID=trackid, term_length=time_range, session_key=ACCESS_TOKEN)
+    song_name = song[0]
+    song_artist = song[4]
+    search_lyrics_url = f"http://api.musixmatch.com/ws/1.1/track.search?apikey={LYRICS_KEY}&q_artist={song_artist}&q_track={song_name}"
+    lyrics_req = requests.get(search_lyrics_url)
+    musixmatch_data = lyrics_req.json()
+    song_id = musixmatch_data.get("message").get("body").get("track_list")[0].get("track").get("track_id")
+    get_lyrics_url = f"http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey={LYRICS_KEY}&track_id={song_id}"
+    req = requests.get(get_lyrics_url, headers=headers)
+    lyrics_data = req.json()
+    # checking whether or not it actually has lyrics
+    if (lyrics_data.get("message").get("body").get("lyrics").get("has_lyrics")==0):
+        lyrics_string = "This song has no lyrics :( Check back next time!"
+    else:
+        lyrics_string = str(lyrics_data.get("message").get("body").get("lyrics").get("lyrics_body"))
+    return render_template("track.html", data = song, lyrics = lyrics_string, oldtoken=ACCESS_TOKEN, newlimit=limit, newoffset=offset, time_range=time_range)
 
 @app.route('/<key>', methods=['GET','POST'])
 def displayLyrics(key):
