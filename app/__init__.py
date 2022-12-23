@@ -80,6 +80,7 @@ def getTracks():
         headers = {
             "Authorization": f"Bearer {ACCESS_TOKEN}"
         }
+        ITEMS_LIST = []
         # If we don't have the data for the request, it will redirect the user to the page to choose a new journey.
         if int(request.args.get('offset')) + int(request.args.get('limit')) > 100:
             return render_template("stats.html", oldtoken=ACCESS_TOKEN)
@@ -105,6 +106,7 @@ def getTracks():
             lookup_url = f"https://api.spotify.com/v1/me/top/{type}?limit=50&offset=49&time_range={time_range}"
             req = requests.get(lookup_url, headers=headers)
             allData = req.json()
+            ITEMS_LIST = items
             items = allData.get("items") # List with each of the artists
             if len(items) > 0:
                 topTracks_table.create(cursor=connection.cursor(), list=items, start=49, key=ACCESS_TOKEN, term_length=time_range)
@@ -118,8 +120,11 @@ def getTracks():
         #     maxrows = limit+offset
         # Creates a dictionary with each of the artists and their information using the database. Each dict value is a tuple.
         # while i < maxrows:
+        maxrows = limit+offset
+        if len(ITEMS_LIST) < maxrows:
+            maxrows = len(ITEMS_LIST)
         i = offset
-        while i < limit+offset:
+        while i < maxrows:
             data[str(i)] = topTracks_table.get(cursor=connection.cursor(), rank=i, session_key=ACCESS_TOKEN, term_length=time_range) 
             i += 1
         song = topTracks_table.get(cursor=connection.cursor(), rank=offset, term_length=time_range, session_key=ACCESS_TOKEN)
