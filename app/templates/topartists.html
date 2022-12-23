@@ -72,6 +72,11 @@
 </head>
 <body class="body">
   <div class="text-center body-center">
+    <h1 class="tracks-pick-font">
+      Top Artists
+    </h1>
+  </div>
+  <div class="text-center body-center">
     <form action='/topartists?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset + newlimit}}&range={{time_range}}' method="POST">
     {% if data -%}
     <h1> Your Top Artist:  {{data.get("0")[0]}}</h1>
@@ -83,9 +88,6 @@
     </br></br></br></br></br>
     </body>
   <br>
-  <h2 class="text-center body-center">
-    Top Artists Ranked
-  </h2>
     <table>
       <tr>
         <th> Place </th>
@@ -103,14 +105,30 @@
     <p>Limit: {{newlimit}}, Offset: {{newoffset}}</p>
     <input type="submit" value="add" name="see more">
   {% else -%}
-    <h2>How much do you want to know?</h2>
-    Start from:
-    <input type="text" name="offset">
-    Entries Per Page (max 100):
-    <input type="text" name="limit">
-    <input type="submit" name="see more" value="long_term" class="login-button">
-    <input type="submit" name="see more" value="medium_term" class="login-button">
-    <input type="submit" name="see more" value="short_term" class="login-button">
+    <div>
+      <div class="text-center">
+        <h6 class="track-form-note-h">Note:</h6>
+        <p class="track-form-note">
+          Artist indeces are denoted by integers, with the first one starting at 0,
+          and the max being 50 indeces.
+        </p>
+      </div>
+      <div>
+        <h5 class="form-label">First Artist Index:</h5>
+        <input type="text" name="offset" class="form-control">
+      </div>
+      <br>
+      <div>
+        <h5 class="form-label">Last Artist Index (MAX 50)</h5>
+        <input type="text" name="limit" class="form-control">
+      </div>
+      <br>
+      <div>
+        <input type="submit" name="see more" value="long_term" class="time-button">
+        <input type="submit" name="see more" value="medium_term" class="time-button">
+        <input type="submit" name="see more" value="short_term" class="time-button">
+      </div>
+    </div>
   {% endif %}
 </form>
 </div>

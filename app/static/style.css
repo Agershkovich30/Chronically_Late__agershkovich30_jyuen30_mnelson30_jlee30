@@ -100,7 +100,9 @@ stylesheet so we could customize our site to our liking */
     color: white;
 }
 
-
+.form-label {
+    color:white;
+}
 
 .big-text {
     font-size: 70px;

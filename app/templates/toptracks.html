@@ -75,14 +75,11 @@
   <h1 class="tracks-pick-font">
     Top Tracks
   </h1>
-  <br>
   <div class = "trackslist-lyrics">
     {% autoescape false %}
     {{ LYRICS_BODY | replace("\n", "<br/>") }}
     {% endautoescape %}
   </div>
-  <br>
-  <br>
     {% if data -%}
       <table class = "table trackslist">
         <tr>
@@ -110,11 +107,7 @@
           <h6 class="track-form-note-h">Note:</h6>
           <p class="track-form-note">
             Song indeces are denoted by integers, with the first one starting
-            at 0, and the max being 100. 
-          </p>
-          <p class="track-form-note">
-            Example: if the first index is 5 and the last is 40, your sixth top
-            track up to your fourty-first will be listed.
+            at 0, and the max being 100 indeces. 
           </p>
         </div>
         <div>
