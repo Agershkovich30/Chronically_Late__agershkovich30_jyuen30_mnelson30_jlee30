@@ -76,7 +76,7 @@
       Top Artists
     </h1>
   </div>
-  <div class="text-center body-center">
+  <div class="text-center body-center trackslist-lyrics">
     <form action='/topartists?token={{oldtoken}}&limit={{newlimit}}&offset={{newoffset + newlimit}}&range={{time_range}}' method="POST">
     {% if data -%}
     <h1> Your Top Artist:  {{data.get("0")[0]}}</h1>
@@ -88,7 +88,7 @@
     </br></br></br></br></br>
     </body>
   <br>
-    <table>
+    <table class = "table trackslist">
       <tr>
         <th> Place </th>
         <th> Artist </th>
