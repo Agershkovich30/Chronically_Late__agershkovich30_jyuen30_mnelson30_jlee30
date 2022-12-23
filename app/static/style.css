@@ -108,6 +108,16 @@ stylesheet so we could customize our site to our liking */
     font-size: 70px;
 }
 
+.track-title {
+    color:#FFCCCB;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.lyrics-body {
+    color:white;
+    font-family: 'Courier New', Courier, monospace;
+}
+
 
 
 
