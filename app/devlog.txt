@@ -78,3 +78,10 @@ Made first draft of design doc
 - Julia:
   - Organized repo and deleted all unnecessary files
   - Amalgamated various test versions and completed lyrics page for tracks
+- Jasmine:
+  - Lyrics API works and when you click on a link of a song, it takes you to a separate page with the lyrics
+===============================
+2022-12-22
+- Jasmine:
+  - Finalized CSS
+  - Accounted for exception case when musiXmatch did not have lyrics for that song
