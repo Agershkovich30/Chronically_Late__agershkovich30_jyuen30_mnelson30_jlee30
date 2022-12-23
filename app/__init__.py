@@ -80,7 +80,6 @@ def getTracks():
         headers = {
             "Authorization": f"Bearer {ACCESS_TOKEN}"
         }
-        ITEMS_LIST = []
         # If we don't have the data for the request, it will redirect the user to the page to choose a new journey.
         if int(request.args.get('offset')) + int(request.args.get('limit')) > 100:
             return render_template("stats.html", oldtoken=ACCESS_TOKEN)
@@ -106,25 +105,25 @@ def getTracks():
             lookup_url = f"https://api.spotify.com/v1/me/top/{type}?limit=50&offset=49&time_range={time_range}"
             req = requests.get(lookup_url, headers=headers)
             allData = req.json()
-            ITEMS_LIST = items
+            # ITEMS_LIST = items
             items = allData.get("items") # List with each of the artists
             if len(items) > 0:
                 topTracks_table.create(cursor=connection.cursor(), list=items, start=49, key=ACCESS_TOKEN, term_length=time_range)
         data = {}
-        # testing number of rows to be created
-        # s = sqlite3.connect("Spotify.db")
-        # c = s.cursor()
-        # c.execute("SELECT COUNT(*) FROM toptracks")
-        # maxrows = int(c.fetchone())
-        # if maxrows > limit+offset:
-        #     maxrows = limit+offset
-        # Creates a dictionary with each of the artists and their information using the database. Each dict value is a tuple.
-        # while i < maxrows:
+        temp_offset = offset
+        # Creates a list of the items that will be requested in this call.
+        ITEMS_LIST = []
+        while temp_offset < offset + limit:
+            # The list gets longer if there are items available to be added.
+            if topTracks_table.get(cursor=connection.cursor(), rank=temp_offset) != None:
+                ITEMS_LIST.append([topTracks_table.get(cursor=connection.cursor(), rank=temp_offset, session_key=ACCESS_TOKEN, term_length=time_range)])
+            temp_offset += 1
         maxrows = limit+offset
-        if len(ITEMS_LIST) < maxrows:
+        # If the requested number of tracks exceeds the available data, then we will reduce the maxrows so that we only display data that we have and don't have empty table rows.
+        if len(ITEMS_LIST) <= maxrows:
             maxrows = len(ITEMS_LIST)
         i = offset
-        while i < maxrows:
+        while i < maxrows+offset:
             data[str(i)] = topTracks_table.get(cursor=connection.cursor(), rank=i, session_key=ACCESS_TOKEN, term_length=time_range) 
             i += 1
         song = topTracks_table.get(cursor=connection.cursor(), rank=offset, term_length=time_range, session_key=ACCESS_TOKEN)
@@ -133,11 +132,16 @@ def getTracks():
         search_lyrics_url = f"http://api.musixmatch.com/ws/1.1/track.search?apikey={LYRICS_KEY}&q_artist={song_artist}&q_track={song_name}"
         lyrics_req = requests.get(search_lyrics_url)
         musixmatch_data = lyrics_req.json()
+        has_lyrics = musixmatch_data.get("message").get("body").get("track_list")[0].get("track").get("has_lyrics")
         song_id = musixmatch_data.get("message").get("body").get("track_list")[0].get("track").get("track_id")
         get_lyrics_url = f"http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey={LYRICS_KEY}&track_id={song_id}"
         req = requests.get(get_lyrics_url, headers=headers)
         lyrics_data = req.json()
-        lyrics_string = str(lyrics_data.get("message").get("body").get("lyrics").get("lyrics_body"))
+        if (has_lyrics==0):
+            lyrics_string = "This song has no lyrics :( Check back next time!"
+        else:
+            lyrics_string = str(lyrics_data.get("message").get("body").get("lyrics").get("lyrics_body"))
+        # return data
         return render_template("toptracks.html", data=data, newoffset=int(offset), newlimit=int(limit), oldtoken=ACCESS_TOKEN, time_range=time_range, LYRICS_BODY=lyrics_string)
     else:
         return render_template("toptracks.html", oldtoken=ACCESS_TOKEN, newlimit=0, newoffset=0)
